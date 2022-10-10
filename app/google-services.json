@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "143864482413",
+    "project_id": "comanda-31a7b",
+    "storage_bucket": "comanda-31a7b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:143864482413:android:f8380c2cc95a196720cd64",
+        "android_client_info": {
+          "package_name": "br.com.distribuidoradosapao"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "143864482413-ac14t7u0op78htb7ng2v3742qst7ic3u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_AFspp2Inxhqze8rRZJdIXOQ3WWFT2K4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "143864482413-ac14t7u0op78htb7ng2v3742qst7ic3u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

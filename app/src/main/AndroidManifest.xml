@@ -4,6 +4,7 @@
     package="br.com.distribuidoradosapao">
 
     <application
+        android:name=".di.KoinApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -14,9 +15,12 @@
         android:theme="@style/Theme.DistribuidoraDoSapao"
         tools:targetApi="31">
         <activity
-            android:name=".view.main.MainActivity"
+            android:name=".view.RegisterUserActivity"
+            android:exported="false"
+            android:theme="@style/Theme.DistribuidoraDoSapao.NoActionBar"/>
+        <activity
+            android:name=".view.SignUpUserActivity"
             android:exported="true"
-            android:label="@string/app_name"
             android:theme="@style/Theme.DistribuidoraDoSapao.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,6 +28,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".view.MainActivity"
+            android:exported="false"
+            android:theme="@style/Theme.DistribuidoraDoSapao.NoActionBar" />
     </application>
 
 </manifest>
