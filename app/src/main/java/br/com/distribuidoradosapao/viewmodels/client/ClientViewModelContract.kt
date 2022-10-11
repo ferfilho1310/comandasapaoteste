@@ -5,4 +5,5 @@ import br.com.distribuidoradosapao.model.Client
 interface ClientViewModelContract {
 
     fun insertClient(client: Client)
+    fun loadClient()
 }

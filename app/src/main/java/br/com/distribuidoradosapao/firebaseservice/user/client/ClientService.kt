@@ -1,8 +1,12 @@
-package br.com.distribuidoradosapao.firebaseservice.user.requests
+package br.com.distribuidoradosapao.firebaseservice.user.client
 
 import android.util.Log
 import br.com.distribuidoradosapao.model.Client
+import com.google.firebase.FirebaseException
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.SnapshotMetadata
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -17,15 +21,31 @@ class ClientService : ClientServiceContract {
             clientMap["name"] = client.name.toString()
             clientMap["date"] = client.date.toString()
 
-           val insertDb = db.collection("Client").document().set(clientMap)
+            val insertDb = db.collection("Client")
+                .document().set(clientMap)
                 .addOnSuccessListener {
                     trySend(true).isSuccess
                 }.addOnFailureListener {
                     trySend(false).isFailure
-                   Log.e("TAG","Erro ao inserir cliente $it")
+                    Log.e("TAG", "Erro ao inserir cliente $it")
                 }
             awaitClose {
                 insertDb.isCanceled
+            }
+        }
+    }
+
+    override fun loadClients(): Flow<Query> {
+        return callbackFlow {
+            var query: Query? = null
+            try {
+                query = db.collection("Client")
+                trySend(query).isSuccess
+            }catch (ex: FirebaseException){
+                query?.let { trySend(it).isFailure }
+            }
+            awaitClose {
+
             }
         }
     }

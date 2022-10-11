@@ -15,11 +15,11 @@
         android:theme="@style/Theme.DistribuidoraDoSapao"
         tools:targetApi="31">
         <activity
-            android:name=".view.RegisterUserActivity"
+            android:name=".view.login.RegisterUserActivity"
             android:exported="false"
             android:theme="@style/Theme.DistribuidoraDoSapao.NoActionBar"/>
         <activity
-            android:name=".view.SignUpUserActivity"
+            android:name=".view.login.SignUpUserActivity"
             android:exported="true"
             android:theme="@style/Theme.DistribuidoraDoSapao.NoActionBar">
             <intent-filter>

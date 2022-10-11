@@ -1,12 +1,12 @@
 package br.com.distribuidoradosapao.di
 
-import br.com.distribuidoradosapao.firebaseservice.user.UserService
-import br.com.distribuidoradosapao.firebaseservice.user.UserServiceContract
-import br.com.distribuidoradosapao.firebaseservice.user.requests.ClientService
-import br.com.distribuidoradosapao.firebaseservice.user.requests.ClientServiceContract
+import br.com.distribuidoradosapao.firebaseservice.user.user.UserService
+import br.com.distribuidoradosapao.firebaseservice.user.user.UserServiceContract
+import br.com.distribuidoradosapao.firebaseservice.user.client.ClientService
+import br.com.distribuidoradosapao.firebaseservice.user.client.ClientServiceContract
 import br.com.distribuidoradosapao.view.MainActivity
-import br.com.distribuidoradosapao.view.RegisterUserActivity
-import br.com.distribuidoradosapao.view.SignUpUserActivity
+import br.com.distribuidoradosapao.view.login.RegisterUserActivity
+import br.com.distribuidoradosapao.view.login.SignUpUserActivity
 import br.com.distribuidoradosapao.viewmodels.client.ClientViewModel
 import br.com.distribuidoradosapao.viewmodels.user.UserViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel

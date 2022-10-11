@@ -1,4 +1,4 @@
-package br.com.distribuidoradosapao.view
+package br.com.distribuidoradosapao.view.login
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

@@ -11,6 +11,8 @@ import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import br.com.distribuidoradosapao.R
 import br.com.distribuidoradosapao.databinding.ActivityMainBinding
+import br.com.distribuidoradosapao.view.client.ClientFragment
+import br.com.distribuidoradosapao.view.client.InsertClientBottomSheet
 
 class MainActivity : AppCompatActivity(),
     NavigationView.OnNavigationItemSelectedListener,

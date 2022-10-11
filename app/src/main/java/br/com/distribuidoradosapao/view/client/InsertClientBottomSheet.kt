@@ -1,4 +1,4 @@
-package br.com.distribuidoradosapao.view
+package br.com.distribuidoradosapao.view.client
 
 
 import android.os.Bundle
