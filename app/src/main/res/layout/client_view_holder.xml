@@ -34,7 +34,6 @@
             android:text="Igor Sapão"
             android:textColor="@color/black"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tv_nome_cliente"
             app:layout_constraintTop_toBottomOf="@+id/tv_nome_cliente" />
 
@@ -49,6 +48,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tv_atendente_cliente"
             app:layout_constraintTop_toTopOf="@+id/tv_atendente_cliente" />
+
+        <Button
+            android:id="@+id/bt_anotar_pedido"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/black"
+            android:layout_marginTop="8dp"
+            android:text="Anotar pedido"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_atendente_cliente" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

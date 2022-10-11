@@ -24,6 +24,7 @@ class UserService : UserServiceContract {
                         userMap["senha"] = user.senha.orEmpty()
                         userMap["confirmaSenha"] = user.confirmaSenha.orEmpty()
                         userMap["id"] = auth.uid.orEmpty()
+                        userMap["name"] = user.name.toString()
 
                         db.collection("User")
                             .document(auth.uid.orEmpty())
@@ -56,6 +57,23 @@ class UserService : UserServiceContract {
                     }
             awaitClose {
                 listener.isCanceled
+            }
+        }
+    }
+
+    override fun searchUser(idUser: String): Flow<User?> {
+        return callbackFlow {
+            val listerner = db.collection("User")
+                .document(idUser)
+                .get()
+                .addOnSuccessListener { snapShot ->
+                    val user = snapShot.toObject(User::class.java)
+                     trySend(user).isSuccess
+                }.addOnFailureListener {
+                    trySend(null).isFailure
+                }
+            awaitClose{
+                listerner.isCanceled
             }
         }
     }

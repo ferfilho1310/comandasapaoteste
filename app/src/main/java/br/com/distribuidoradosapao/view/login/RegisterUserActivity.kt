@@ -81,10 +81,10 @@ class RegisterUserActivity : AppCompatActivity(), View.OnClickListener {
 
                     viewModel.register(
                         User(
-                            edRegistrarEmail.text.toString(),
-                            edRegistrarSenha.text.toString(),
-                            edConfirmaSenha.text.toString(),
-                            edNome.text.toString()
+                            email = edRegistrarEmail.text.toString(),
+                            senha = edRegistrarSenha.text.toString(),
+                            confirmaSenha = edConfirmaSenha.text.toString(),
+                            name = edNome.text.toString()
                         )
                     )
                 }

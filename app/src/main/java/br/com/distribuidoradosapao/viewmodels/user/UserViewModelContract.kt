@@ -6,4 +6,5 @@ interface UserViewModelContract {
 
     fun register(user: User)
     fun signUp(user: User)
+    fun searchUser(idUser: String)
 }

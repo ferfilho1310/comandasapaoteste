@@ -17,10 +17,12 @@
         <activity
             android:name=".view.login.RegisterUserActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.DistribuidoraDoSapao.NoActionBar"/>
         <activity
             android:name=".view.login.SignUpUserActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.DistribuidoraDoSapao.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,7 +33,11 @@
         <activity
             android:name=".view.MainActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.DistribuidoraDoSapao.NoActionBar" />
+        <activity android:name=".view.client.RequestClientActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.DistribuidoraDoSapao.NoActionBar"/>
     </application>
-
 </manifest>

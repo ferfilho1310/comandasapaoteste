@@ -20,13 +20,15 @@ class UserViewModel(
     var register: LiveData<Boolean> = _register
     private val _signUp: MutableLiveData<Boolean> = MutableLiveData()
     var signUp: LiveData<Boolean> = _signUp
+    private val _searchUser: MutableLiveData<User?> = MutableLiveData()
+    var searchUser: LiveData<User?> = _searchUser
 
     override fun register(user: User) {
         userService.register(user)
             .onEach {
                 _register.value = it
             }.catch {
-             Log.e("ERROR", "Error ao efetuar o cadastro $it")
+                Log.e("ERROR", "Error ao efetuar o cadastro $it")
                 _register.value = false
             }.launchIn(viewModelScope)
     }
@@ -38,6 +40,16 @@ class UserViewModel(
             }.catch {
                 Log.e("ERROR", "Error ao efetuar login $it")
                 _signUp.value = false
+            }.launchIn(viewModelScope)
+    }
+
+    override fun searchUser(idUser: String) {
+        userService.searchUser(idUser)
+            .onEach {
+                _searchUser.value = it
+            }.catch {
+                Log.e("ERROR", "Error ao buscar o usuário $it")
+                _searchUser.value = null
             }.launchIn(viewModelScope)
     }
 }

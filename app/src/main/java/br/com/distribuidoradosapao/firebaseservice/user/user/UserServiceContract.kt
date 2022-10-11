@@ -7,4 +7,5 @@ interface UserServiceContract {
 
     fun register(user: User): Flow<Boolean>
     fun signUp(user: User): Flow<Boolean>
+    fun searchUser(idUser: String): Flow<User?>
 }

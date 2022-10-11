@@ -20,6 +20,7 @@ class ClientService : ClientServiceContract {
             val clientMap: MutableMap<String, String> = HashMap()
             clientMap["name"] = client.name.toString()
             clientMap["date"] = client.date.toString()
+            clientMap["nameAtendente"] = client.nameAtendente.toString()
 
             val insertDb = db.collection("Client")
                 .document().set(clientMap)
@@ -41,7 +42,7 @@ class ClientService : ClientServiceContract {
             try {
                 query = db.collection("Client")
                 trySend(query).isSuccess
-            }catch (ex: FirebaseException){
+            } catch (ex: FirebaseException) {
                 query?.let { trySend(it).isFailure }
             }
             awaitClose {

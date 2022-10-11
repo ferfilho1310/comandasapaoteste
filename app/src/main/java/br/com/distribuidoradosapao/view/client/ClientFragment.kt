@@ -1,5 +1,6 @@
 package br.com.distribuidoradosapao.view.client
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import br.com.distribuidoradosapao.R
 import br.com.distribuidoradosapao.databinding.FragmentClientBinding
 import br.com.distribuidoradosapao.model.Client
 import br.com.distribuidoradosapao.view.client.adapter.ClientAdapter
@@ -58,7 +60,7 @@ class ClientFragment : Fragment() {
                         )
                     }
                 }
-            })
+            }, ::navigateRequestClientFragment)
 
             binding.rcClients.apply {
                 adapter = adapterClient
@@ -69,6 +71,12 @@ class ClientFragment : Fragment() {
 
             adapterClient?.startListening()
         }
+    }
+
+    private fun navigateRequestClientFragment(idClient: String) {
+        val intent = Intent(requireContext(),RequestClientActivity::class.java)
+        intent.putExtra("idClient",idClient)
+        startActivity(intent)
     }
 
     private fun setVisibility(
