@@ -21,11 +21,11 @@
         android:layout_margin="16dp">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/ed_insert_request_client"
+            android:id="@+id/ed_product_request_client"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Produto"
-            android:inputType="text" />
+            android:inputType="textPersonName" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -46,6 +46,7 @@
                 android:id="@+id/ed_request_client_quantity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:hint="Quantidade"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -62,6 +63,7 @@
                 android:id="@+id/ed_request_client_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
                 android:hint="Preço"/>
         </com.google.android.material.textfield.TextInputLayout>
 

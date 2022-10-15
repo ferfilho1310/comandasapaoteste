@@ -35,7 +35,7 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.DistribuidoraDoSapao.NoActionBar" />
-        <activity android:name=".view.client.RequestClientActivity"
+        <activity android:name=".view.client.request.RequestClientActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.DistribuidoraDoSapao.NoActionBar"/>

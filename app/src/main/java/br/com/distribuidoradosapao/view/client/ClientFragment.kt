@@ -8,10 +8,10 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import br.com.distribuidoradosapao.R
 import br.com.distribuidoradosapao.databinding.FragmentClientBinding
 import br.com.distribuidoradosapao.model.Client
 import br.com.distribuidoradosapao.view.client.adapter.ClientAdapter
+import br.com.distribuidoradosapao.view.client.request.RequestClientActivity
 import br.com.distribuidoradosapao.viewmodels.client.ClientViewModel
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import org.koin.android.ext.android.inject
@@ -74,7 +74,7 @@ class ClientFragment : Fragment() {
     }
 
     private fun navigateRequestClientFragment(idClient: String) {
-        val intent = Intent(requireContext(),RequestClientActivity::class.java)
+        val intent = Intent(requireContext(), RequestClientActivity::class.java)
         intent.putExtra("idClient",idClient)
         startActivity(intent)
     }
