@@ -1,9 +1,11 @@
 package br.com.distribuidoradosapao.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import com.google.android.material.navigation.NavigationView
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +15,8 @@ import br.com.distribuidoradosapao.R
 import br.com.distribuidoradosapao.databinding.ActivityMainBinding
 import br.com.distribuidoradosapao.view.client.ClientFragment
 import br.com.distribuidoradosapao.view.client.InsertClientBottomSheet
+import br.com.distribuidoradosapao.view.login.SignUpUserActivity
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity(),
     NavigationView.OnNavigationItemSelectedListener,
@@ -60,6 +64,7 @@ class MainActivity : AppCompatActivity(),
         binding.let {
             it.appBarMain.fab.setOnClickListener(this)
             it.navView.setNavigationItemSelectedListener(this)
+            it.clSair.setOnClickListener(this)
         }
     }
 
@@ -82,6 +87,24 @@ class MainActivity : AppCompatActivity(),
             R.id.fab -> {
                 val bottomSheet = InsertClientBottomSheet()
                 bottomSheet.show(supportFragmentManager, "TAG")
+            }
+            R.id.cl_sair -> {
+                AlertDialog.Builder(this)
+                    .setTitle("Atenção")
+                    .setMessage("Deseja realmente sair ?")
+                    .setPositiveButton("Sim") { p0, p ->
+                        FirebaseAuth.getInstance().signOut()
+                        startActivity(
+                            Intent(
+                                this,
+                                SignUpUserActivity::class.java
+                            ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        )
+                        finish()
+                    }.setNegativeButton("Não") { p0, p ->
+                        p0.dismiss()
+                    }.show()
+
             }
         }
     }

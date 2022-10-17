@@ -18,7 +18,8 @@ class RequestClientService : RequestClientServiceContract {
             mapRequest["idClient"] = request.idClient.toString()
             mapRequest["amount"] = request.amount.toString()
             mapRequest["nameProduct"] = request.nameProduct.toString()
-            mapRequest["value"] = request.value.toString()
+            mapRequest["valueUnit"] = request.valueUnit.toString()
+            mapRequest["valueTotal"] = (request.amount?.toInt()!! * request.valueUnit!!.toInt()).toString()
 
             val listener =
                 db.collection("Pedidos").add(mapRequest)

@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
     android:layout_marginTop="8dp"
-    android:elevation="20dp"
-    app:cardCornerRadius="8dp">
+    app:cardCornerRadius="8dp"
+    android:layout_margin="8dp"
+    android:elevation="20dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -31,8 +31,8 @@
             android:id="@+id/linearLayout2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:orientation="vertical"
+            android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_nome_cliente">
 
@@ -44,17 +44,18 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Atendente: "
+                    android:text="Preço: "
                     android:textColor="@color/black"
-                    android:textSize="12sp" />
+                    android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/tv_atendente_cliente"
+                    android:id="@+id/tv_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Igor Sapão"
+                    android:text="3"
+                    android:textStyle="bold"
                     android:textColor="@color/black"
-                    android:textSize="12sp"
+                    android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="@+id/tv_nome_cliente"
                     app:layout_constraintTop_toBottomOf="@+id/tv_nome_cliente" />
 
@@ -68,12 +69,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Data: "
+                    android:text="Quantidade: "
                     android:textColor="@color/black"
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/tv_data"
+                    android:id="@+id/tv_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="25/10/2022 às 20:55"
@@ -86,32 +87,6 @@
 
             </LinearLayout>
         </LinearLayout>
-
-        <Button
-            android:id="@+id/bt_anotar_pedido"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:backgroundTint="@color/black"
-            android:text="Anotar pedido"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/bt_editar_cliente" />
-
-        <Button
-            android:id="@+id/bt_editar_cliente"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:backgroundTint="@color/black"
-            android:text="Editar nome"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tv_nome_cliente"
-            app:layout_constraintTop_toBottomOf="@+id/tv_nome_cliente" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

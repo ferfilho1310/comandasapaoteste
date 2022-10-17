@@ -12,7 +12,8 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions
 class ClientAdapter(
     options: FirestoreRecyclerOptions<Client>,
     private val listener: ListenerOnDataChanged,
-    private val idClient: (String) -> Unit
+    private val dataClient: (String, Client) -> Unit,
+    private val idClient: (String) -> Unit,
 ) : FirestoreRecyclerAdapter<Client, RecyclerView.ViewHolder>(options) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -25,20 +26,15 @@ class ClientAdapter(
         val clientViewHolder = holder as ClientViewHolder
         clientViewHolder.bind(model)
         holder.view.findViewById<Button>(R.id.bt_anotar_pedido).setOnClickListener {
+            dataClient.invoke(snapshots.getSnapshot(position).reference.id, model)
+        }
+        holder.view.findViewById<Button>(R.id.bt_editar_cliente).setOnClickListener {
             idClient.invoke(snapshots.getSnapshot(position).reference.id)
         }
     }
 
-    override fun onDataChanged() {
-        super.onDataChanged()
-        if (itemCount == 0) {
-            listener.onDataChanged(0)
-        } else {
-            listener.onDataChanged(itemCount)
-        }
-    }
-
     interface ListenerOnDataChanged {
-        fun onDataChanged(countData: Int)
+        fun onDataChangedEmpty(countData: Int)
+        fun onDataChangedIsNotEmpty(countData: Int)
     }
 }

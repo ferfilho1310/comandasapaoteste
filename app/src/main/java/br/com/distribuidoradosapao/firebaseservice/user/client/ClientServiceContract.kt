@@ -8,4 +8,9 @@ interface ClientServiceContract {
 
     fun insertClient(client: Client): Flow<Boolean>
     fun loadClients() : Flow<Query>
+    fun deleteClient(idClient: String): Flow<Boolean>
+    fun searchClientBeforeDeleted(idClient: String): Flow<Client?>
+    fun insertClientDeleted(client: Client): Flow<Boolean>
+    fun loadOneClient(idClient: String): Flow<Client?>
+    fun updateClient(idClient: String,client: Client): Flow<Boolean>
 }

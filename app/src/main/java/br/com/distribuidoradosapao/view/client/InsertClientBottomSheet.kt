@@ -21,7 +21,10 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-class InsertClientBottomSheet : BottomSheetDialogFragment(), View.OnClickListener {
+class InsertClientBottomSheet(
+    val idClient: String? = null
+) : BottomSheetDialogFragment(),
+    View.OnClickListener {
 
     private var _binding: InsertClientBottomSheetBinding? = null
     private val binding get() = _binding!!
@@ -39,7 +42,9 @@ class InsertClientBottomSheet : BottomSheetDialogFragment(), View.OnClickListene
         _binding = InsertClientBottomSheetBinding.inflate(layoutInflater)
 
         binding.btInserirClient.setOnClickListener(this)
+
         viewModelUser.searchUser(FirebaseAuth.getInstance().uid.toString())
+        idClient?.let { viewModel.loadOneClient(it) }
         setViewModel()
 
         return binding.root
@@ -58,16 +63,29 @@ class InsertClientBottomSheet : BottomSheetDialogFragment(), View.OnClickListene
     }
 
     private fun setViewModel() {
-        viewModel.insertClient.observe(this) {
-            if (it == true) {
-                dismiss()
-            } else {
-                Toast.makeText(context, "Erro ao inserir cliente", Toast.LENGTH_LONG).show()
+        idClient?.let {
+            viewModel.loadOneClient.observe(this) {
+                binding.edInsertClient.setText(it.name.toString())
+            }
+            viewModel.updateClient.observe(this) {
+                if (it == true) {
+                    dismiss()
+                } else {
+                    Toast.makeText(context, "Erro ao atualizar dados do cliente", Toast.LENGTH_LONG).show()
+                }
+            }
+        } ?: run {
+            viewModel.insertClient.observe(this) {
+                if (it == true) {
+                    dismiss()
+                } else {
+                    Toast.makeText(context, "Erro ao inserir cliente", Toast.LENGTH_LONG).show()
+                }
             }
         }
 
         viewModelUser.searchUser.observe(this) {
-            if (it != null){
+            if (it != null) {
                 user = it
             }
         }
@@ -79,13 +97,22 @@ class InsertClientBottomSheet : BottomSheetDialogFragment(), View.OnClickListene
             binding.edInsertClient.text.toString().isEmpty() -> binding.edInsertClient.error =
                 "Informe o nome do cliente"
             else -> {
-                viewModel.insertClient(
-                    Client(
-                        name = binding.edInsertClient.text.toString(),
-                        date = dateFormat(),
-                        nameAtendente = user.email
+                idClient?.let {
+                    viewModel.updateClient(
+                        idClient,
+                        Client(
+                            name = binding.edInsertClient.text.toString()
+                        )
                     )
-                )
+                } ?: run {
+                    viewModel.insertClient(
+                        Client(
+                            name = binding.edInsertClient.text.toString(),
+                            date = dateFormat(),
+                            nameAtendente = user.name
+                        )
+                    )
+                }
             }
         }
     }
@@ -94,7 +121,13 @@ class InsertClientBottomSheet : BottomSheetDialogFragment(), View.OnClickListene
     private fun dateFormat(): String {
         val current = LocalDateTime.now()
 
-        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")
+        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
         return current.format(formatter)
+    }
+
+    companion object {
+        fun newInstance(idClient: String?): InsertClientBottomSheet {
+            return InsertClientBottomSheet(idClient)
+        }
     }
 }

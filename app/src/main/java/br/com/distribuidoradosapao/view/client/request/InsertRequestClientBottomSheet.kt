@@ -81,7 +81,7 @@ class InsertRequestClientBottomSheet(
                             idClient = idClient,
                             amount = edRequestClientQuantity.text.toString(),
                             nameProduct = edProductRequestClient.text.toString(),
-                            value = edRequestClientValue.text.toString()
+                            valueUnit = edRequestClientValue.text.toString(),
                         )
                     )
                     viewModel.somaRequestsClient(idClient)

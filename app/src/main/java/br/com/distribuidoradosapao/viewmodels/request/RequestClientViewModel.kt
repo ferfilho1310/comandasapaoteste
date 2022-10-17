@@ -52,7 +52,7 @@ class RequestClientViewModel(
         requestClientService.somaRequestsClinet(idClient)
             .onEach {
                 it?.forEach { valueProduct ->
-                    sum.add(valueProduct.value!!.toInt())
+                    sum.add(valueProduct.valueTotal!!.toInt())
                 }
                 sum.forEach {
                     sumTotal += it

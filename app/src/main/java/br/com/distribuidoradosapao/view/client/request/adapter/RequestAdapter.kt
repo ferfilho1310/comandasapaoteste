@@ -17,16 +17,13 @@ class RequestAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return RequestViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.client_view_holder, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.request_client_view_holder, parent, false)
         )
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, model: Request) {
         val clientViewHolder = holder as RequestViewHolder
         clientViewHolder.bind(model)
-        holder.view.findViewById<Button>(R.id.bt_anotar_pedido).setOnClickListener {
-            //idClient.invoke(snapshots.getSnapshot(position).reference.id)
-        }
     }
 
     override fun onDataChanged() {
