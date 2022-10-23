@@ -1,5 +1,6 @@
 package br.com.distribuidoradosapao.firebaseservice.user.request
 
+import br.com.distribuidoradosapao.model.PedidoRecebidoParcial
 import br.com.distribuidoradosapao.model.Request
 import com.google.firebase.FirebaseException
 import com.google.firebase.firestore.FirebaseFirestore
@@ -12,14 +13,21 @@ class RequestClientService : RequestClientServiceContract {
 
     val db = FirebaseFirestore.getInstance()
 
+    private var sum: ArrayList<Float> = arrayListOf()
+    private var sumRecebidoParcial: ArrayList<Float> = arrayListOf()
+
+    private var sumTotal = 0f
+    private var sumTotalParcial = 0f
+    private var recebido = 0f
+
     override fun insertRequestClient(request: Request): Flow<Boolean> {
         return callbackFlow {
-            val mapRequest: MutableMap<String, String> = HashMap()
+            val mapRequest: MutableMap<String, Any> = HashMap()
             mapRequest["idClient"] = request.idClient.toString()
-            mapRequest["amount"] = request.amount.toString()
+            mapRequest["amount"] = request.amount!!
             mapRequest["nameProduct"] = request.nameProduct.toString()
-            mapRequest["valueUnit"] = request.valueUnit.toString()
-            mapRequest["valueTotal"] = (request.amount?.toInt()!! * request.valueUnit!!.toInt()).toString()
+            mapRequest["valueUnit"] = request.valueUnit!!
+            mapRequest["valueTotal"] = request.amount * request.valueUnit
 
             val listener =
                 db.collection("Pedidos").add(mapRequest)
@@ -49,7 +57,7 @@ class RequestClientService : RequestClientServiceContract {
         }
     }
 
-    override fun somaRequestsClinet(idClient: String): Flow<MutableList<Request>?> {
+    override fun somaRequestsClient(idClient: String): Flow<MutableList<Request>?> {
         return callbackFlow {
             try {
                 db.collection("Pedidos").whereEqualTo("idClient", idClient)
@@ -64,6 +72,76 @@ class RequestClientService : RequestClientServiceContract {
             awaitClose {
 
             }
+        }
+    }
+
+    override fun receberPedidoParcial(recebidoParcial: PedidoRecebidoParcial): Flow<Boolean> {
+        return callbackFlow {
+            val mapRequest: MutableMap<String, Any> = HashMap()
+            mapRequest["idClient"] = recebidoParcial.idClient.toString()
+            mapRequest["value"] = recebidoParcial.value!!
+
+            val listener =
+                db.collection("RecebidoParcial").add(mapRequest)
+                    .addOnSuccessListener {
+                        trySend(true).isSuccess
+                    }.addOnFailureListener {
+                        trySend(false).isFailure
+                    }
+            awaitClose {
+                listener.isCanceled
+            }
+        }
+    }
+
+    override fun somaReceberParcial(idClient: String): Flow<MutableList<PedidoRecebidoParcial>?> {
+        return callbackFlow {
+            try {
+                db.collection("RecebidoParcial").whereEqualTo("idClient", idClient)
+                    .addSnapshotListener { value, error ->
+                        val requestList = value?.toObjects(PedidoRecebidoParcial::class.java)
+                        trySend(requestList).isSuccess
+                    }
+            } catch (ex: Exception) {
+                trySend(null).isFailure
+            }
+
+            awaitClose {
+
+            }
+        }
+    }
+
+    override fun recebido(idClient: String): Flow<Float> {
+        return callbackFlow {
+            try {
+                db.collection("Pedidos").whereEqualTo("idClient", idClient)
+                    .addSnapshotListener { value, error ->
+                        val requestList = value?.toObjects(Request::class.java)
+                        requestList?.forEach { valueProduct ->
+                            sum.add(valueProduct.valueTotal!!.toFloat())
+                        }
+                        sum.forEach {
+                            sumTotal += it
+                        }
+                    }
+
+                db.collection("RecebidoParcial").whereEqualTo("idClient", idClient)
+                    .addSnapshotListener { value, error ->
+                        val requestList = value?.toObjects(PedidoRecebidoParcial::class.java)
+                        requestList?.forEach { valueProduct ->
+                            sumRecebidoParcial.add(valueProduct.value!!.toFloat())
+                        }
+                        sumRecebidoParcial.forEach {
+                            sumTotalParcial += it
+                        }
+                    }
+                recebido = sumTotal - sumTotalParcial
+
+            } catch (ex: Exception) {
+                trySend(0f).isFailure
+            }
+
         }
     }
 }

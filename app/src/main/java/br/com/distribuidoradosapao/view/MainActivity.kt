@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import br.com.distribuidoradosapao.R
 import br.com.distribuidoradosapao.databinding.ActivityMainBinding
 import br.com.distribuidoradosapao.view.client.ClientFragment
+import br.com.distribuidoradosapao.view.client.ClientRequestFinishFragment
 import br.com.distribuidoradosapao.view.client.InsertClientBottomSheet
 import br.com.distribuidoradosapao.view.login.SignUpUserActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -40,12 +41,14 @@ class MainActivity : AppCompatActivity(),
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_slideshow -> navigateFragment(SlideshowFragment())
-            R.id.nav_client -> navigateFragment(ClientFragment())
-            R.id.nav_gallery -> navigateFragment(GalleryFragment())
+            R.id.nav_client -> {
+                navigateFragment(ClientFragment.newInstance())
+            }
+            R.id.nav_gallery -> {
+                navigateFragment(ClientRequestFinishFragment.newInstance())
+            }
         }
-
         drawerLayout.closeDrawer(GravityCompat.START)
-
         return true
     }
 
@@ -62,7 +65,6 @@ class MainActivity : AppCompatActivity(),
 
     private fun listener() {
         binding.let {
-            it.appBarMain.fab.setOnClickListener(this)
             it.navView.setNavigationItemSelectedListener(this)
             it.clSair.setOnClickListener(this)
         }
@@ -84,10 +86,6 @@ class MainActivity : AppCompatActivity(),
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
-            R.id.fab -> {
-                val bottomSheet = InsertClientBottomSheet()
-                bottomSheet.show(supportFragmentManager, "TAG")
-            }
             R.id.cl_sair -> {
                 AlertDialog.Builder(this)
                     .setTitle("Atenção")

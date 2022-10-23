@@ -7,33 +7,32 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import br.com.distribuidoradosapao.R
 import br.com.distribuidoradosapao.databinding.FragmentClientBinding
+import br.com.distribuidoradosapao.databinding.FragmentClientRequestFinishBinding
 import br.com.distribuidoradosapao.model.Client
-import br.com.distribuidoradosapao.view.client.adapter.ClientAdapter
+import br.com.distribuidoradosapao.view.client.adapter.ClientRequestFinishAdapter
 import br.com.distribuidoradosapao.view.request.RequestClientActivity
 import br.com.distribuidoradosapao.viewmodels.client.ClientViewModel
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import org.koin.android.ext.android.inject
 
-class ClientFragment : Fragment(), View.OnClickListener {
+class ClientRequestFinishFragment : Fragment() {
 
-    private var _binding: FragmentClientBinding? = null
+    private var _binding: FragmentClientRequestFinishBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: ClientViewModel by inject()
 
-    private var adapterClient: ClientAdapter? = null
+    private var adapterClient: ClientRequestFinishAdapter? = null
     private var options: FirestoreRecyclerOptions<Client>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentClientBinding.inflate(inflater, container, false)
+        _binding = FragmentClientRequestFinishBinding.inflate(inflater, container, false)
 
         setViewModel()
         viewModel.loadClients()
-        binding.fab.setOnClickListener(this)
         return binding.root
     }
 
@@ -43,19 +42,7 @@ class ClientFragment : Fragment(), View.OnClickListener {
             options =
                 FirestoreRecyclerOptions.Builder<Client>().setQuery(it, Client::class.java).build()
 
-            adapterClient = ClientAdapter(
-                options!!, object : ClientAdapter.ListenerOnDataChanged {
-                    override fun onDataChangedEmpty(countData: Int) {
-
-                    }
-
-                    override fun onDataChangedIsNotEmpty(countData: Int) {
-
-                    }
-                },
-                ::navigateRequestClientFragment,
-                ::editDataClient
-            )
+            adapterClient = ClientRequestFinishAdapter(options!!, ::navigateRequestClientFragment)
 
             binding.rcClients.apply {
                 adapter = adapterClient
@@ -74,28 +61,14 @@ class ClientFragment : Fragment(), View.OnClickListener {
         startActivity(intent)
     }
 
-    private fun editDataClient(idClient: String) {
-        val bottomSheet = InsertClientBottomSheet.newInstance(idClient)
-        bottomSheet.show(childFragmentManager, "TAG")
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
     companion object {
-        fun newInstance(): ClientFragment {
-            return ClientFragment()
-        }
-    }
-
-    override fun onClick(p0: View?) {
-        when(p0?.id){
-            R.id.fab -> {
-                val bottomSheet = InsertClientBottomSheet()
-                bottomSheet.show(childFragmentManager, "TAG")
-            }
+        fun newInstance(): ClientRequestFinishFragment {
+            return ClientRequestFinishFragment()
         }
     }
 }

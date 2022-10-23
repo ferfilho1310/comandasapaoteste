@@ -1,11 +1,9 @@
-package br.com.distribuidoradosapao.view.client.request.adapter
+package br.com.distribuidoradosapao.view.request.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
 import br.com.distribuidoradosapao.R
-import br.com.distribuidoradosapao.model.Client
 import br.com.distribuidoradosapao.model.Request
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
@@ -22,8 +20,8 @@ class RequestAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, model: Request) {
-        val clientViewHolder = holder as RequestViewHolder
-        clientViewHolder.bind(model)
+        val requestViewHolder = holder as RequestViewHolder
+        requestViewHolder.bind(model)
     }
 
     override fun onDataChanged() {

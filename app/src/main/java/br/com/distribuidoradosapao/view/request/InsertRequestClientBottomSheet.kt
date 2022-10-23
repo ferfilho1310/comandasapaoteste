@@ -1,4 +1,4 @@
-package br.com.distribuidoradosapao.view.client.request
+package br.com.distribuidoradosapao.view.request
 
 import android.os.Bundle
 import android.util.Log
@@ -14,7 +14,8 @@ import org.koin.android.ext.android.inject
 
 class InsertRequestClientBottomSheet(
     var idClient: String,
-    var listener: (String) -> Unit
+    var listener: (String) -> Unit,
+    var recebido: Recebido
 ) : BottomSheetDialogFragment(), View.OnClickListener {
 
     private var _binding: InsertRequestClientBottomSheetBinding? = null
@@ -79,23 +80,29 @@ class InsertRequestClientBottomSheet(
                     viewModel.insertRequestClient(
                         Request(
                             idClient = idClient,
-                            amount = edRequestClientQuantity.text.toString(),
+                            amount = edRequestClientQuantity.text.toString().toInt(),
                             nameProduct = edProductRequestClient.text.toString(),
-                            valueUnit = edRequestClientValue.text.toString(),
+                            valueUnit = edRequestClientValue.text.toString().toFloat(),
                         )
                     )
                     viewModel.somaRequestsClient(idClient)
+                    recebido.onRecebido()
                 }
             }
         }
     }
 
+    interface Recebido {
+        fun onRecebido()
+    }
+
     companion object {
         fun newInstance(
             idClient: String,
-            listener: (String) -> Unit
+            listener: (String) -> Unit,
+            recebido: Recebido
         ): InsertRequestClientBottomSheet {
-            return InsertRequestClientBottomSheet(idClient, listener)
+            return InsertRequestClientBottomSheet(idClient, listener, recebido)
         }
     }
 }

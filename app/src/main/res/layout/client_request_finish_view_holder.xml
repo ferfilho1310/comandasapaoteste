@@ -88,19 +88,6 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/bt_anotar_pedido"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:backgroundTint="@color/black"
-            android:text="Anotar pedido"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/bt_editar_cliente" />
-
-        <Button
             android:id="@+id/bt_ver_pedido"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -108,24 +95,12 @@
             android:backgroundTint="@color/black"
             android:text="Ver pedido"
             android:textAllCaps="false"
-            android:visibility="gone"
             android:textColor="@color/white"
+            android:visibility="visible"
+            android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/bt_editar_cliente" />
-
-        <Button
-            android:id="@+id/bt_editar_cliente"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:backgroundTint="@color/black"
-            android:text="Editar nome"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tv_nome_cliente"
-            app:layout_constraintTop_toBottomOf="@+id/tv_nome_cliente" />
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

@@ -7,7 +7,7 @@ import br.com.distribuidoradosapao.firebaseservice.user.client.ClientServiceCont
 import br.com.distribuidoradosapao.firebaseservice.user.request.RequestClientService
 import br.com.distribuidoradosapao.firebaseservice.user.request.RequestClientServiceContract
 import br.com.distribuidoradosapao.view.MainActivity
-import br.com.distribuidoradosapao.view.client.request.RequestClientActivity
+import br.com.distribuidoradosapao.view.request.RequestClientActivity
 import br.com.distribuidoradosapao.view.login.RegisterUserActivity
 import br.com.distribuidoradosapao.view.login.SignUpUserActivity
 import br.com.distribuidoradosapao.viewmodels.client.ClientViewModel
