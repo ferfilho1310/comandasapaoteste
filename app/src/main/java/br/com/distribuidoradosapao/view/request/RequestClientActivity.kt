@@ -1,44 +1,31 @@
 package br.com.distribuidoradosapao.view.request
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
+import br.com.distribuidoradosapao.FragmentRequestsClient
 import br.com.distribuidoradosapao.R
 import br.com.distribuidoradosapao.databinding.ActivityRequestClientBinding
 import br.com.distribuidoradosapao.model.Client
-import br.com.distribuidoradosapao.model.PedidoRecebidoParcial
-import br.com.distribuidoradosapao.model.Request
 import br.com.distribuidoradosapao.view.MainActivity
-import br.com.distribuidoradosapao.view.request.adapter.RequestAdapter
+import br.com.distribuidoradosapao.view.requestfinish.FragmentPedidosRecebidos
+import br.com.distribuidoradosapao.view.requestfinish.ViewPagerAdapter
 import br.com.distribuidoradosapao.viewmodels.client.ClientViewModel
-import br.com.distribuidoradosapao.viewmodels.request.RequestClientViewModel
-import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import org.koin.android.ext.android.inject
 
 
 class RequestClientActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityRequestClientBinding
-    private var idClient: String = String()
-    private var adapterRequest: RequestAdapter? = null
-    private var options: FirestoreRecyclerOptions<Request>? = null
 
-    private val viewModel: RequestClientViewModel by inject()
     private val viewModelClient: ClientViewModel by inject()
 
     private var client: Client? = null
+    private var idClient: String = String()
 
-    private var sumParcial = 0f
-    private var sumtotal = 0f
-    private var valorAReceber = 0f
-
-    @SuppressLint("RestrictedApi", "UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRequestClientBinding.inflate(layoutInflater)
@@ -57,22 +44,29 @@ class RequestClientActivity : AppCompatActivity(), View.OnClickListener {
 
         supportActionBar?.title = client?.name
 
-        viewModel.loadRequests(idClient)
-
-        setupViewModel()
-        setupViewModelSum()
-        setupViewModelDeleteClient()
-        setupViewModelSumParcial()
-
         setupListeners()
+        setupViewModelDeleteClient()
+        setupViewPager()
+    }
+
+    private fun setupViewPager() {
+        val adapter = ViewPagerAdapter(supportFragmentManager)
+        adapter.addFragment(
+            FragmentRequestsClient.newInstance(
+                idClient = idClient,
+                client = client
+            ), "Pedidos"
+        )
+        adapter.addFragment(
+            FragmentPedidosRecebidos(),
+            "Recebidos Parcial"
+        )
+        binding.viewPager.adapter = adapter
+        binding.tabTablayout.setupWithViewPager(binding.viewPager)
     }
 
     private fun setupListeners() {
-        binding.let {
-            it.fabInsertRequestClient.setOnClickListener(this)
-            it.tvFinalizarComanda.setOnClickListener(this)
-            it.fabReceberParccial.setOnClickListener(this)
-        }
+        binding.tvFinalizarComanda.setOnClickListener(this)
     }
 
     private fun getDataClient(iDataClient: Intent): String? {
@@ -81,42 +75,6 @@ class RequestClientActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun getDataUser(iDataClient: Intent): Client? {
         return iDataClient.getParcelableExtra("user")
-    }
-
-    private fun setupViewModel() {
-        viewModel.loadRequestClient.observe(this) {
-            options = FirestoreRecyclerOptions.Builder<Request>()
-                .setQuery(it, Request::class.java)
-                .build()
-
-            adapterRequest =
-                RequestAdapter(options!!, object : RequestAdapter.ListenerOnDataChanged {
-                    override fun onDataChanged(countData: Int) {
-                        if (countData == 0) {
-                            /*   setVisibility(
-                                   isVisibleLottie = true,
-                                   isVisibleRecyclerView = false,
-                                   isVisibleTextLottie = true
-                               )*/
-                        } else {
-                            /*setVisibility(
-                                isVisibleLottie = false,
-                                isVisibleRecyclerView = true,
-                                isVisibleTextLottie = false
-                            )*/
-                        }
-                    }
-                })
-
-            binding.recyclerView.apply {
-                adapter = adapterRequest
-                setHasFixedSize(true)
-                layoutManager =
-                    LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            }
-
-            adapterRequest?.startListening()
-        }
     }
 
     private fun setListenerToolbar() {
@@ -147,31 +105,6 @@ class RequestClientActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
-            R.id.fab_receber_parccial -> {
-                val bottomSheet =
-                    InsertValueRecebidoParcialBottomSheet.newInstance(
-                        idClient,
-                        ::listenerSumRececidoParcial,
-                        object : InsertValueRecebidoParcialBottomSheet.Recebido {
-                            override fun onRecebido() {
-
-                            }
-                        }
-                    )
-                bottomSheet.show(supportFragmentManager, "TAG")
-            }
-            R.id.fab_insert_request_client -> {
-                val bottomSheet =
-                    InsertRequestClientBottomSheet.newInstance(
-                        idClient,
-                        ::listenerSumTotal,
-                        object : InsertRequestClientBottomSheet.Recebido {
-                            override fun onRecebido() {
-
-                            }
-                        })
-                bottomSheet.show(supportFragmentManager, "TAG")
-            }
             R.id.tv_finalizar_comanda -> {
                 val alertDialog = AlertDialog.Builder(this)
                     .setTitle("Finalizar comanda")
@@ -205,38 +138,5 @@ class RequestClientActivity : AppCompatActivity(), View.OnClickListener {
                 ).show()
             }
         }
-    }
-
-    private fun listenerSumTotal(sumRequest: String) {
-        binding.tvTotalRequestClient.text = "R$ ".plus(sumRequest)
-    }
-
-    private fun listenerSumRececidoParcial(sumRecebidoParcial: String) {
-        binding.tvRequestClientRecebido.text = "R$ ".plus(sumRecebidoParcial)
-    }
-
-    private fun setupViewModelSum() {
-        viewModel.somaRequestClient.observe(this) {
-            binding.tvTotalRequestClient.text = "R$ ".plus(it)
-        }
-    }
-
-    private fun setupViewModelSumParcial() {
-        viewModel.somaPedidosParcial.observe(this) {
-            binding.tvRequestClientRecebido.text = "R$ ".plus(it)
-        }
-    }
-
-    private fun valorReceber() {
-     viewModel.recebido.observe(this){
-         binding.tvRequestClientReceber.text = "R$ ".plus(it.toString())
-     }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        viewModel.somaRequestsClient(idClient)
-        viewModel.somaReceberParcial(idClient)
-        valorReceber()
     }
 }
