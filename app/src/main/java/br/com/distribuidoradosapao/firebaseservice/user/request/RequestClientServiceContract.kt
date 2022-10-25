@@ -13,4 +13,5 @@ interface RequestClientServiceContract {
     fun receberPedidoParcial(recebidoParcial: PedidoRecebidoParcial): Flow<Boolean>
     fun somaReceberParcial(idClient: String): Flow<MutableList<PedidoRecebidoParcial>?>
     fun recebido(idClient: String): Flow<Float>
+    fun loadSomaParcial(idClient: String): Flow<Query>
 }

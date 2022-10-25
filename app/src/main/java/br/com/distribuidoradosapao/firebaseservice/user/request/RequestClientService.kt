@@ -80,6 +80,7 @@ class RequestClientService : RequestClientServiceContract {
             val mapRequest: MutableMap<String, Any> = HashMap()
             mapRequest["idClient"] = recebidoParcial.idClient.toString()
             mapRequest["value"] = recebidoParcial.value!!
+            mapRequest["name"] = recebidoParcial.name.toString()
 
             val listener =
                 db.collection("RecebidoParcial").add(mapRequest)
@@ -142,6 +143,21 @@ class RequestClientService : RequestClientServiceContract {
                 trySend(0f).isFailure
             }
 
+        }
+    }
+
+    override fun loadSomaParcial(idClient: String): Flow<Query> {
+        return callbackFlow {
+            var query: Query? = null
+            try {
+                query = db.collection("RecebidoParcial").whereEqualTo("idClient", idClient)
+                trySend(query).isSuccess
+            } catch (ex: FirebaseException) {
+                query?.let { trySend(it).isFailure }
+            }
+            awaitClose {
+
+            }
         }
     }
 }

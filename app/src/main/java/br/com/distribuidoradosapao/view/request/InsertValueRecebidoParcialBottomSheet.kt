@@ -69,12 +69,15 @@ class InsertValueRecebidoParcialBottomSheet(
     private fun verifyDataRequest() {
         binding.apply {
             when {
+                edName.text.toString().isEmpty() -> edName.error =
+                    "Preencha o nome"
                 edValueRecebido.text.toString().isEmpty() -> edValueRecebido.error =
                     "Preencha o valor"
                 else -> {
                     viewModel.receberPedidoParcial(
                         PedidoRecebidoParcial(
                             idClient = idClient,
+                            name = edName.text.toString(),
                             value = edValueRecebido.text.toString().toFloat()
                         )
                     )

@@ -55,11 +55,11 @@ class RequestClientActivity : AppCompatActivity(), View.OnClickListener {
             FragmentRequestsClient.newInstance(
                 idClient = idClient,
                 client = client
-            ), "Pedidos"
+            ), "Pedidos Anotados"
         )
         adapter.addFragment(
-            FragmentPedidosRecebidos(),
-            "Recebidos Parcial"
+            FragmentPedidosRecebidos.newInstance(idClient),
+            "Receber Pedido"
         )
         binding.viewPager.adapter = adapter
         binding.tabTablayout.setupWithViewPager(binding.viewPager)

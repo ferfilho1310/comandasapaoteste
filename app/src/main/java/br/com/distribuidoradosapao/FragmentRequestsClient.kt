@@ -45,7 +45,6 @@ class FragmentRequestsClient(
 
         setupViewModel()
         setupViewModelSum()
-        setupViewModelSumParcial()
 
         setupListeners()
 
@@ -55,7 +54,6 @@ class FragmentRequestsClient(
     private fun setupListeners() {
         binding.let {
             it.fabInsertRequestClient.setOnClickListener(this)
-            it.fabReceberParccial.setOnClickListener(this)
         }
     }
 
@@ -88,7 +86,7 @@ class FragmentRequestsClient(
                 adapter = adapterRequest
                 setHasFixedSize(true)
                 layoutManager =
-                    GridLayoutManager(context,2)
+                    GridLayoutManager(context, 2)
             }
 
             adapterRequest?.startListening()
@@ -97,19 +95,6 @@ class FragmentRequestsClient(
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
-            R.id.fab_receber_parccial -> {
-                val bottomSheet =
-                    InsertValueRecebidoParcialBottomSheet.newInstance(
-                        idClient,
-                        ::listenerSumRececidoParcial,
-                        object : InsertValueRecebidoParcialBottomSheet.Recebido {
-                            override fun onRecebido() {
-
-                            }
-                        }
-                    )
-                bottomSheet.show(childFragmentManager, "TAG")
-            }
             R.id.fab_insert_request_client -> {
                 val bottomSheet =
                     InsertRequestClientBottomSheet.newInstance(
@@ -140,26 +125,15 @@ class FragmentRequestsClient(
         binding.tvTotalRequestClient.text = "R$ ".plus(sumRequest)
     }
 
-    private fun listenerSumRececidoParcial(sumRecebidoParcial: String) {
-        binding.tvRequestClientRecebido.text = "R$ ".plus(sumRecebidoParcial)
-    }
-
     private fun setupViewModelSum() {
         viewModel.somaRequestClient.observe(viewLifecycleOwner) {
             binding.tvTotalRequestClient.text = "R$ ".plus(it)
         }
     }
 
-    private fun setupViewModelSumParcial() {
-        viewModel.somaPedidosParcial.observe(viewLifecycleOwner) {
-            binding.tvRequestClientRecebido.text = "R$ ".plus(it)
-        }
-    }
-
     override fun onStart() {
         super.onStart()
         viewModel.somaRequestsClient(idClient)
-        viewModel.somaReceberParcial(idClient)
     }
 
     override fun onDestroyView() {
@@ -168,9 +142,7 @@ class FragmentRequestsClient(
     }
 
     companion object {
-        fun newInstance(
-            idClient: String,
-            client: Client?
-        ) = FragmentRequestsClient(idClient, client)
+        fun newInstance(idClient: String, client: Client?) =
+            FragmentRequestsClient(idClient, client)
     }
 }

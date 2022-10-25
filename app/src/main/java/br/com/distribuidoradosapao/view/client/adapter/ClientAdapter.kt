@@ -3,6 +3,7 @@ package br.com.distribuidoradosapao.view.client.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import br.com.distribuidoradosapao.R
@@ -32,7 +33,7 @@ class ClientAdapter(
                 dataClient.invoke(snapshots.getSnapshot(position).reference.id, model)
             }
         }
-        holder.view.findViewById<Button>(R.id.bt_editar_cliente).apply {
+        holder.view.findViewById<ImageButton>(R.id.bt_editar_cliente).apply {
             setOnClickListener {
                 idClient.invoke(snapshots.getSnapshot(position).reference.id)
             }

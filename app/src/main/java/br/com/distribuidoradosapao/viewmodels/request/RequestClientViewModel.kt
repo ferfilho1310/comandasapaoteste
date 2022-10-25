@@ -36,6 +36,8 @@ class RequestClientViewModel(
     private var _recebido: MutableLiveData<Float> = MutableLiveData()
     var recebido: LiveData<Float> = _recebido
 
+    private var _loadSomaParcial: MutableLiveData<Query> = MutableLiveData()
+    var loadSomaParcial: LiveData<Query> = _loadSomaParcial
 
     private var sum: ArrayList<Float> = arrayListOf()
     private var sumRecebidoParcial: ArrayList<Float> = arrayListOf()
@@ -115,6 +117,15 @@ class RequestClientViewModel(
                     sumTotalParcial += it
                 }
                 _recebido.value = somaTotal - sumTotalParcial
+            }.catch {
+
+            }.launchIn(viewModelScope)
+    }
+
+    override fun loadSomaParcial(idClient: String) {
+        requestClientService.loadSomaParcial(idClient)
+            .onEach {
+                _loadSomaParcial.value = it
             }.catch {
 
             }.launchIn(viewModelScope)

@@ -18,12 +18,11 @@
             android:id="@+id/tv_nome_cliente"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
             android:text="Fernando Antônio da silva filho "
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/linearLayout2"
+            app:layout_constraintEnd_toStartOf="@+id/bt_editar_cliente"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,10 +30,10 @@
             android:id="@+id/linearLayout2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tv_nome_cliente">
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@+id/tv_nome_cliente"
+            app:layout_constraintTop_toBottomOf="@+id/tv_nome_cliente">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -91,41 +90,36 @@
             android:id="@+id/bt_anotar_pedido"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_marginTop="12dp"
             android:backgroundTint="@color/black"
             android:text="Anotar pedido"
             android:textAllCaps="false"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/bt_editar_cliente" />
+            app:layout_constraintStart_toStartOf="@+id/linearLayout2"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
         <Button
             android:id="@+id/bt_ver_pedido"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:backgroundTint="@color/black"
             android:text="Ver pedido"
             android:textAllCaps="false"
-            android:visibility="gone"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/bt_editar_cliente" />
+            android:visibility="gone"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="8dp" />
 
-        <Button
+        <ImageButton
             android:id="@+id/bt_editar_cliente"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:backgroundTint="@color/black"
-            android:text="Editar nome"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tv_nome_cliente"
-            app:layout_constraintTop_toBottomOf="@+id/tv_nome_cliente" />
+            android:background="@color/white"
+            android:src="@drawable/ic_edit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

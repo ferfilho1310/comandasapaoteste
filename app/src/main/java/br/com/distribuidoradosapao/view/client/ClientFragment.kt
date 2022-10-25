@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.distribuidoradosapao.R
 import br.com.distribuidoradosapao.databinding.FragmentClientBinding
@@ -60,7 +61,7 @@ class ClientFragment : Fragment(), View.OnClickListener {
             binding.rcClients.apply {
                 adapter = adapterClient
                 setHasFixedSize(true)
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                layoutManager = GridLayoutManager(context, 2)
             }
 
             adapterClient?.startListening()

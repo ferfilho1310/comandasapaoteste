@@ -11,4 +11,5 @@ interface RequestClientViewModelContract {
     fun receberPedidoParcial(recebidoParcial: PedidoRecebidoParcial)
     fun somaReceberParcial(idClient: String)
     fun somaReceberParcial(idClient: String, somaTotal: Float)
+    fun loadSomaParcial(idClient: String)
 }
