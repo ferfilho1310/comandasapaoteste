@@ -1,4 +1,4 @@
-package br.com.distribuidoradosapao.firebaseservice.user.request
+package br.com.distribuidoradosapao.firebaseservice.request
 
 import android.util.Log
 import br.com.distribuidoradosapao.model.PedidoRecebidoParcial

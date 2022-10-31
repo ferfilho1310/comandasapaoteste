@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.distribuidoradosapao.firebaseservice.user.user.UserServiceContract
+import br.com.distribuidoradosapao.firebaseservice.user.UserServiceContract
 import br.com.distribuidoradosapao.model.User
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn

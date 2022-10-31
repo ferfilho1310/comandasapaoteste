@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.distribuidoradosapao.firebaseservice.user.request.RequestClientServiceContract
+import br.com.distribuidoradosapao.firebaseservice.request.RequestClientServiceContract
 import br.com.distribuidoradosapao.model.PedidoRecebidoParcial
 import br.com.distribuidoradosapao.model.Request
 import com.google.firebase.firestore.Query

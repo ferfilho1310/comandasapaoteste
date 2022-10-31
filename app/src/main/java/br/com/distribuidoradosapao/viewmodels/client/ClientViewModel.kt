@@ -2,7 +2,7 @@ package br.com.distribuidoradosapao.viewmodels.client
 
 import android.util.Log
 import androidx.lifecycle.*
-import br.com.distribuidoradosapao.firebaseservice.user.client.ClientServiceContract
+import br.com.distribuidoradosapao.firebaseservice.client.ClientServiceContract
 import br.com.distribuidoradosapao.model.Client
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.flow.catch

@@ -1,4 +1,4 @@
-package br.com.distribuidoradosapao.firebaseservice.user.request
+package br.com.distribuidoradosapao.firebaseservice.request
 
 import br.com.distribuidoradosapao.model.PedidoRecebidoParcial
 import br.com.distribuidoradosapao.model.Request

@@ -1,11 +1,11 @@
 package br.com.distribuidoradosapao.di
 
-import br.com.distribuidoradosapao.firebaseservice.user.user.UserService
-import br.com.distribuidoradosapao.firebaseservice.user.user.UserServiceContract
-import br.com.distribuidoradosapao.firebaseservice.user.client.ClientService
-import br.com.distribuidoradosapao.firebaseservice.user.client.ClientServiceContract
-import br.com.distribuidoradosapao.firebaseservice.user.request.RequestClientService
-import br.com.distribuidoradosapao.firebaseservice.user.request.RequestClientServiceContract
+import br.com.distribuidoradosapao.firebaseservice.user.UserService
+import br.com.distribuidoradosapao.firebaseservice.user.UserServiceContract
+import br.com.distribuidoradosapao.firebaseservice.client.ClientService
+import br.com.distribuidoradosapao.firebaseservice.client.ClientServiceContract
+import br.com.distribuidoradosapao.firebaseservice.request.RequestClientService
+import br.com.distribuidoradosapao.firebaseservice.request.RequestClientServiceContract
 import br.com.distribuidoradosapao.view.main.MainActivity
 import br.com.distribuidoradosapao.view.request.RequestClientFinishActivity
 import br.com.distribuidoradosapao.view.login.RegisterUserActivity
