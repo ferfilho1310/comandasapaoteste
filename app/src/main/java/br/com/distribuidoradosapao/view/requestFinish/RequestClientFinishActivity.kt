@@ -1,5 +1,6 @@
 package br.com.distribuidoradosapao.view.request
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -10,12 +11,14 @@ import br.com.distribuidoradosapao.R
 import br.com.distribuidoradosapao.databinding.ActivityRequestClientBinding
 import br.com.distribuidoradosapao.model.Client
 import br.com.distribuidoradosapao.view.main.MainActivity
+import br.com.distribuidoradosapao.view.requestFinish.PedidosRecebidosFinalizadosFragment
+import br.com.distribuidoradosapao.view.requestFinish.RequestsClientFinishFragment
 import br.com.distribuidoradosapao.view.requestforfinish.ViewPagerAdapter
 import br.com.distribuidoradosapao.viewmodels.client.ClientViewModel
 import org.koin.android.ext.android.inject
 
 
-class RequestClientActivity : AppCompatActivity(), View.OnClickListener {
+class RequestClientFinishActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRequestClientBinding
 
@@ -24,6 +27,7 @@ class RequestClientActivity : AppCompatActivity(), View.OnClickListener {
     private var client: Client? = null
     private var idClient: String = String()
 
+    @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRequestClientBinding.inflate(layoutInflater)
@@ -42,7 +46,7 @@ class RequestClientActivity : AppCompatActivity(), View.OnClickListener {
 
         supportActionBar?.title = "Pedidos do(a) ".plus(client?.name)
 
-        setupListeners()
+
         setupViewModelDeleteClient()
         setupViewPager()
     }
@@ -50,21 +54,17 @@ class RequestClientActivity : AppCompatActivity(), View.OnClickListener {
     private fun setupViewPager() {
         val adapter = ViewPagerAdapter(supportFragmentManager)
         adapter.addFragment(
-            RequestsClientFragment.newInstance(
+            RequestsClientFinishFragment.newInstance(
                 idClient = idClient,
                 client = client
             ), "Anotados"
         )
         adapter.addFragment(
-            PedidosRecebidosFragment.newInstance(idClient),
-            "Recebido Parcial"
+            PedidosRecebidosFinalizadosFragment.newInstance(idClient),
+            "Recebebido"
         )
         binding.viewPager.adapter = adapter
         binding.tabTablayout.setupWithViewPager(binding.viewPager)
-    }
-
-    private fun setupListeners() {
-        binding.tvFinalizarComanda.setOnClickListener(this)
     }
 
     private fun getDataClient(iDataClient: Intent): String? {
@@ -79,12 +79,11 @@ class RequestClientActivity : AppCompatActivity(), View.OnClickListener {
         binding.toolbar.let {
             it.navigationIcon = resources.getDrawable(R.drawable.ic_back)
             it.setNavigationOnClickListener {
-                startActivity(
-                    Intent(
-                        this,
-                        MainActivity::class.java
-                    ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                )
+                val i = Intent(this, MainActivity::class.java)
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                i.putExtra("FinishActivity", true)
+                startActivity(i)
                 finish()
             }
         }
@@ -92,40 +91,22 @@ class RequestClientActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        startActivity(
-            Intent(
-                this,
-                MainActivity::class.java
-            ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        )
+        val i = Intent(this, MainActivity::class.java)
+            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        i.putExtra("FinishActivity", true)
+        startActivity(i)
         finish()
-    }
-
-    override fun onClick(p0: View?) {
-        when (p0?.id) {
-            R.id.tv_finalizar_comanda -> {
-                val alertDialog = AlertDialog.Builder(this)
-                    .setTitle("Finalizar comanda")
-                    .setMessage("Deseja realmente finalizar a comanda do cliente?")
-                    .setPositiveButton("Sim") { p0, p1 ->
-                        viewModelClient.searchClient(idClient)
-                    }.setNegativeButton("Não") { p0, p1 ->
-                        p0.dismiss()
-                    }
-                alertDialog.show()
-            }
-        }
     }
 
     private fun setupViewModelDeleteClient() {
         viewModelClient.deleteClient.observe(this) {
             if (it == true) {
-                startActivity(
-                    Intent(
-                        this,
-                        MainActivity::class.java
-                    ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                )
+                val i = Intent(this, MainActivity::class.java)
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                i.putExtra("FinishActivity", true)
+                startActivity(i)
                 finish()
                 Toast.makeText(this, "Comanda Finalizada com sucesso", Toast.LENGTH_LONG).show()
             } else {

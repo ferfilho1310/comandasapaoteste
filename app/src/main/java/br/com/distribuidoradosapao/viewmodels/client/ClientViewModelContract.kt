@@ -11,4 +11,6 @@ interface ClientViewModelContract {
     fun insertClientBeforeDelete(client: Client?, idClient: String)
     fun loadOneClient(idClient: String)
     fun updateClient(idClient: String,client: Client)
+    fun loadClientDeleted()
+    fun updateClientId(idClient: String)
 }

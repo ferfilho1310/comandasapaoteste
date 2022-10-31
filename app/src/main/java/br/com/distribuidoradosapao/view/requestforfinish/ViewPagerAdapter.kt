@@ -1,4 +1,4 @@
-package br.com.distribuidoradosapao.view.requestfinish
+package br.com.distribuidoradosapao.view.requestforfinish
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

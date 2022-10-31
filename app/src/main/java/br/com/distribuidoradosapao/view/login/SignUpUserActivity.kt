@@ -9,7 +9,7 @@ import androidx.core.view.isVisible
 import br.com.distribuidoradosapao.R
 import br.com.distribuidoradosapao.databinding.SignUpActivityBinding
 import br.com.distribuidoradosapao.model.User
-import br.com.distribuidoradosapao.view.MainActivity
+import br.com.distribuidoradosapao.view.main.MainActivity
 import br.com.distribuidoradosapao.viewmodels.user.UserViewModel
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth

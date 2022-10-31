@@ -4,35 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
     android:layout_marginTop="8dp"
-    android:elevation="20dp"
-    app:cardCornerRadius="8dp">
+    app:cardCornerRadius="8dp"
+    android:layout_margin="8dp"
+    android:elevation="20dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp">
+        android:padding="16dp">
 
         <TextView
-            android:id="@+id/tv_nome_cliente"
-            android:layout_width="211dp"
+            android:id="@+id/tv_name_product"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Fernando Antônio da silva filho "
+            android:text="Skol Lata"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:id="@+id/linearLayout2"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="@+id/tv_nome_cliente"
-            app:layout_constraintTop_toBottomOf="@+id/tv_nome_cliente">
+            android:layout_marginTop="2dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_name_product">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -42,17 +43,18 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Atendente: "
+                    android:text="Preço: "
                     android:textColor="@color/black"
-                    android:textSize="12sp" />
+                    android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/tv_atendente_cliente"
+                    android:id="@+id/tv_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Igor Sapão"
+                    android:text="3"
                     android:textColor="@color/black"
-                    android:textSize="12sp"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="@+id/tv_nome_cliente"
                     app:layout_constraintTop_toBottomOf="@+id/tv_nome_cliente" />
 
@@ -66,12 +68,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Data: "
+                    android:text="Quantidade: "
                     android:textColor="@color/black"
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/tv_data"
+                    android:id="@+id/tv_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="25/10/2022 às 20:55"
@@ -84,20 +86,6 @@
 
             </LinearLayout>
         </LinearLayout>
-
-        <Button
-            android:id="@+id/bt_ver_pedido"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/black"
-            android:text="Ver pedido"
-            android:layout_marginTop="12dp"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/linearLayout2"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

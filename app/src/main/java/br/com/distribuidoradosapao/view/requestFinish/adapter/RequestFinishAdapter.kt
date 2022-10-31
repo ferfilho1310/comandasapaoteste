@@ -2,32 +2,26 @@ package br.com.distribuidoradosapao.view.request.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
 import br.com.distribuidoradosapao.R
 import br.com.distribuidoradosapao.model.Request
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 
-class RequestAdapter(
+class RequestFinishAdapter(
     options: FirestoreRecyclerOptions<Request>,
     private val listener: ListenerOnDataChanged,
-    private val listernerEditRequest: ListenerEditRequest
 ) : FirestoreRecyclerAdapter<Request, RecyclerView.ViewHolder>(options) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return RequestViewHolder(
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.request_client_view_holder, parent, false)
+        return RequestFinishViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.request_finish_client_view_holder, parent, false)
         )
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, model: Request) {
-        val requestViewHolder = holder as RequestViewHolder
+        val requestViewHolder = holder as RequestFinishViewHolder
         requestViewHolder.bind(model)
-        requestViewHolder.view.findViewById<ImageButton>(R.id.img_edit_request).setOnClickListener {
-            listernerEditRequest.onEditRequest(snapshots.getSnapshot(position).reference.id, model)
-        }
     }
 
     override fun onDataChanged() {
@@ -43,9 +37,5 @@ class RequestAdapter(
 
     interface ListenerOnDataChanged {
         fun onDataChanged(countData: Int)
-    }
-
-    interface ListenerEditRequest {
-        fun onEditRequest(idRequest: String,  model: Request)
     }
 }

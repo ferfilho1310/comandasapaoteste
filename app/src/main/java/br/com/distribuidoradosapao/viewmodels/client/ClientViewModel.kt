@@ -29,6 +29,12 @@ class ClientViewModel(
     private var _updateClient: MutableLiveData<Boolean> = MutableLiveData()
     var updateClient: LiveData<Boolean> = _updateClient
 
+    private var _loadClientDeleted: MutableLiveData<Query> = MutableLiveData()
+    var loadClientDeleted: LiveData<Query> = _loadClientDeleted
+
+    private var _updateClientId: MutableLiveData<Boolean> = MutableLiveData()
+    var updateClientId: LiveData<Boolean> = _updateClientId
+
     override fun insertClient(client: Client) {
         service.insertClient(client)
             .onEach {
@@ -44,7 +50,7 @@ class ClientViewModel(
             .onEach {
                 _loadClient.value = it
             }.catch {
-                Log.e("Erro","Não foi possível encontrar nenhum cliente: $it")
+                Log.e("Erro", "Não foi possível encontrar nenhum cliente: $it")
             }.launchIn(viewModelScope)
     }
 
@@ -53,32 +59,32 @@ class ClientViewModel(
             .onEach {
                 _deletClient.value = it
             }.catch {
-                Log.e("Erro","Não foi possível deletar o cliente: $it")
+                Log.e("Erro", "Não foi possível deletar o cliente: $it")
             }.launchIn(viewModelScope)
     }
 
     override fun searchClient(idClient: String) {
         service.searchClientBeforeDeleted(idClient)
             .onEach {
-                insertClientBeforeDelete(it,idClient)
+                insertClientBeforeDelete(it, idClient)
             }.catch {
                 _deletClient.value = false
-                Log.e("Erro","Não foi possível encontrar o cliente: $it")
+                Log.e("Erro", "Não foi possível encontrar o cliente: $it")
             }.launchIn(viewModelScope)
     }
 
-    override fun insertClientBeforeDelete(client: Client?, idClient: String){
+    override fun insertClientBeforeDelete(client: Client?, idClient: String) {
         if (client != null) {
-            service.insertClientDeleted(client)
+            service.insertClientDeleted(client, idClient)
                 .onEach {
-                    if(it){
+                    if (it) {
                         deletClient(idClient)
                     } else {
                         _deletClient.value = false
                     }
                 }.catch {
                     _deletClient.value = false
-                    Log.e("Erro","Não foi possível inserir o cliente: $it")
+                    Log.e("Erro", "Não foi possível inserir o cliente: $it")
                 }.launchIn(viewModelScope)
         }
     }
@@ -88,16 +94,34 @@ class ClientViewModel(
             .onEach {
                 _loadOneClient.value = it
             }.catch {
-                Log.e("Erro","Não foi possível carregar os dados do cliente: $it")
+                Log.e("Erro", "Não foi possível carregar os dados do cliente: $it")
             }.launchIn(viewModelScope)
     }
 
-    override fun updateClient(idClient: String,client: Client) {
+    override fun updateClient(idClient: String, client: Client) {
         service.updateClient(idClient, client)
             .onEach {
                 _updateClient.value = it
             }.catch {
-                Log.e("Erro","Não foi possível atualizar os dados do cliente: $it")
+                Log.e("Erro", "Não foi possível atualizar os dados do cliente: $it")
+            }.launchIn(viewModelScope)
+    }
+
+    override fun loadClientDeleted() {
+        service.loadClientsDeleted()
+            .onEach {
+                _loadClientDeleted.value = it
+            }.catch {
+                Log.e("ERROR", "Não foi possível carregar os clientes deletados: $it")
+            }.launchIn(viewModelScope)
+    }
+
+    override fun updateClientId(idClient: String) {
+        service.updateClientId(idClient)
+            .onEach {
+                _updateClientId.value = it
+            }.onEach {
+
             }.launchIn(viewModelScope)
     }
 }

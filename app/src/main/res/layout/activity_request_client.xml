@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#15000000"
     android:orientation="vertical"
-    tools:context=".view.request.RequestClientActivity">
+    tools:context=".view.request.RequestClientFinishActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"

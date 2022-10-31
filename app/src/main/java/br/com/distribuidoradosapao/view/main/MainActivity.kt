@@ -1,4 +1,4 @@
-package br.com.distribuidoradosapao.view
+package br.com.distribuidoradosapao.view.main
 
 import android.content.Intent
 import android.os.Bundle
@@ -13,9 +13,9 @@ import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import br.com.distribuidoradosapao.R
 import br.com.distribuidoradosapao.databinding.ActivityMainBinding
+import br.com.distribuidoradosapao.view.SlideshowFragment
 import br.com.distribuidoradosapao.view.client.ClientFragment
 import br.com.distribuidoradosapao.view.client.ClientRequestFinishFragment
-import br.com.distribuidoradosapao.view.client.InsertClientBottomSheet
 import br.com.distribuidoradosapao.view.login.SignUpUserActivity
 import com.google.firebase.auth.FirebaseAuth
 
@@ -25,6 +25,8 @@ class MainActivity : AppCompatActivity(),
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var drawerLayout: DrawerLayout
+
+    var isFinishRequestClicked = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,6 +84,21 @@ class MainActivity : AppCompatActivity(),
         drawerLayout.addDrawerListener(toggle)
 
         toggle.syncState()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val intent = intent
+
+        if (getNavigationFragment(intent) == true) {
+            navigateFragment(ClientRequestFinishFragment.newInstance())
+        }
+
+        intent.removeExtra("FinishActivity")
+    }
+
+    private fun getNavigationFragment(intent: Intent): Boolean? {
+        return intent.getBooleanExtra("FinishActivity", false)
     }
 
     override fun onClick(p0: View?) {

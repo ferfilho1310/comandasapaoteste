@@ -39,6 +39,10 @@ class RequestClientViewModel(
     private var _loadSomaParcial: MutableLiveData<Query> = MutableLiveData()
     var loadSomaParcial: LiveData<Query> = _loadSomaParcial
 
+    private var _updateRequest: MutableLiveData<Boolean> = MutableLiveData()
+    var updateRequest: LiveData<Boolean> = _updateRequest
+
+
     private var sum: ArrayList<Float> = arrayListOf()
     private var sumRecebidoParcial: ArrayList<Float> = arrayListOf()
     private var sumRecebidoParcial1: ArrayList<Float> = arrayListOf()
@@ -128,6 +132,15 @@ class RequestClientViewModel(
                 _loadSomaParcial.value = it
             }.catch {
 
+            }.launchIn(viewModelScope)
+    }
+
+    override fun updateRequest(idRequest: String, request: Request) {
+        requestClientService.updateRequest(idRequest, request)
+            .onEach {
+                _updateRequest.value = it
+            }.catch {
+                Log.e("TAG", "Error ao atualizar o pedido $it")
             }.launchIn(viewModelScope)
     }
 }

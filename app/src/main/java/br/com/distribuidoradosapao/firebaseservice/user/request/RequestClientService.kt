@@ -1,5 +1,6 @@
 package br.com.distribuidoradosapao.firebaseservice.user.request
 
+import android.util.Log
 import br.com.distribuidoradosapao.model.PedidoRecebidoParcial
 import br.com.distribuidoradosapao.model.Request
 import com.google.firebase.FirebaseException
@@ -157,6 +158,26 @@ class RequestClientService : RequestClientServiceContract {
             }
             awaitClose {
 
+            }
+        }
+    }
+
+    override fun updateRequest(idRequest: String, request: Request): Flow<Boolean> {
+        return callbackFlow {
+
+            val mapUpdateRequest: MutableMap<String, Any> = HashMap()
+            mapUpdateRequest["amount"] = request.amount!!
+            mapUpdateRequest["nameProduct"] = request.nameProduct.toString()
+            mapUpdateRequest["valueUnit"] = request.valueUnit!!
+            mapUpdateRequest["valueTotal"] = request.amount * request.valueUnit
+
+            val listerner = db.collection("Pedidos").document(idRequest).update(mapUpdateRequest)
+                .addOnSuccessListener { trySend(true).isSuccess }
+                .addOnFailureListener {
+                    Log.e("TAG", "Error ao atualizar o pedido $it")
+                    trySend(false).isFailure }
+            awaitClose {
+                listerner.isCanceled
             }
         }
     }

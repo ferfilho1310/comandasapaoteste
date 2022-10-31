@@ -6,8 +6,8 @@ import br.com.distribuidoradosapao.firebaseservice.user.client.ClientService
 import br.com.distribuidoradosapao.firebaseservice.user.client.ClientServiceContract
 import br.com.distribuidoradosapao.firebaseservice.user.request.RequestClientService
 import br.com.distribuidoradosapao.firebaseservice.user.request.RequestClientServiceContract
-import br.com.distribuidoradosapao.view.MainActivity
-import br.com.distribuidoradosapao.view.request.RequestClientActivity
+import br.com.distribuidoradosapao.view.main.MainActivity
+import br.com.distribuidoradosapao.view.request.RequestClientFinishActivity
 import br.com.distribuidoradosapao.view.login.RegisterUserActivity
 import br.com.distribuidoradosapao.view.login.SignUpUserActivity
 import br.com.distribuidoradosapao.viewmodels.client.ClientViewModel
@@ -22,7 +22,7 @@ object KoinModules {
         single { MainActivity() }
         single { SignUpUserActivity() }
         single { RegisterUserActivity() }
-        single { RequestClientActivity() }
+        single { RequestClientFinishActivity() }
     }
 
     val service = module {

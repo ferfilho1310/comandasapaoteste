@@ -1,4 +1,4 @@
-package br.com.distribuidoradosapao.view.requestfinish
+package br.com.distribuidoradosapao.view.requestFinish
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,18 +8,19 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import br.com.distribuidoradosapao.R
 import br.com.distribuidoradosapao.databinding.FragmentPedidosRecebidosBinding
+import br.com.distribuidoradosapao.databinding.FragmentPedidosRecebidosFinalizadosBinding
 import br.com.distribuidoradosapao.model.PedidoRecebidoParcial
 import br.com.distribuidoradosapao.view.request.InsertValueRecebidoParcialBottomSheet
-import br.com.distribuidoradosapao.view.requestfinish.adapterRecebidosParcial.RequestParcialAdapter
+import br.com.distribuidoradosapao.view.requestforfinish.adapterRecebidosParcial.RequestParcialAdapter
 import br.com.distribuidoradosapao.viewmodels.request.RequestClientViewModel
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import org.koin.android.ext.android.inject
 
-class FragmentPedidosRecebidos(
+class PedidosRecebidosFinalizadosFragment(
     var idClient: String
-) : Fragment(), View.OnClickListener {
+) : Fragment() {
 
-    private var _binding: FragmentPedidosRecebidosBinding? = null
+    private var _binding: FragmentPedidosRecebidosFinalizadosBinding? = null
     private val binding get() = _binding!!
 
     private var adapterRequest: RequestParcialAdapter? = null
@@ -31,21 +32,14 @@ class FragmentPedidosRecebidos(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentPedidosRecebidosBinding.inflate(inflater, container, false)
+        _binding = FragmentPedidosRecebidosFinalizadosBinding.inflate(inflater, container, false)
 
         viewModel.loadSomaParcial(idClient)
 
-        setupListeners()
         setupViewModel()
         setupViewModelSumParcial()
 
         return binding.root
-    }
-
-    private fun setupListeners() {
-        binding.let {
-            it.fabReceberParccial.setOnClickListener(this)
-        }
     }
 
     private fun setupViewModel() {
@@ -68,28 +62,6 @@ class FragmentPedidosRecebidos(
         }
     }
 
-    override fun onClick(p0: View?) {
-        when (p0?.id) {
-            R.id.fab_receber_parccial -> {
-                val bottomSheet =
-                    InsertValueRecebidoParcialBottomSheet.newInstance(
-                        idClient,
-                        ::listenerSumRececidoParcial,
-                        object : InsertValueRecebidoParcialBottomSheet.Recebido {
-                            override fun onRecebido() {
-
-                            }
-                        }
-                    )
-                bottomSheet.show(childFragmentManager, "TAG")
-            }
-        }
-    }
-
-    private fun listenerSumRececidoParcial(sumRecebidoParcial: String) {
-        binding.tvRequestClientRecebido.text = "R$ ".plus("%.2f".format(sumRecebidoParcial.toFloat()))
-    }
-
     private fun setupViewModelSumParcial() {
         viewModel.somaPedidosParcial.observe(viewLifecycleOwner) {
             binding.tvRequestClientRecebido.text = "R$ ".plus(it)
@@ -107,6 +79,6 @@ class FragmentPedidosRecebidos(
     }
 
     companion object {
-        fun newInstance(idClient: String) = FragmentPedidosRecebidos(idClient)
+        fun newInstance(idClient: String) = PedidosRecebidosFinalizadosFragment(idClient)
     }
 }

@@ -1,4 +1,4 @@
-package br.com.distribuidoradosapao.view.requestfinish.adapterRecebidosParcial
+package br.com.distribuidoradosapao.view.requestforfinish.adapterRecebidosParcial
 
 import android.view.View
 import android.widget.TextView

@@ -6,12 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import br.com.distribuidoradosapao.databinding.FragmentClientBinding
+import androidx.recyclerview.widget.GridLayoutManager
 import br.com.distribuidoradosapao.databinding.FragmentClientRequestFinishBinding
 import br.com.distribuidoradosapao.model.Client
-import br.com.distribuidoradosapao.view.client.adapter.ClientRequestFinishAdapter
-import br.com.distribuidoradosapao.view.request.RequestClientActivity
+import br.com.distribuidoradosapao.view.client.adapter.ClientRequestAdapter
+import br.com.distribuidoradosapao.view.request.RequestClientFinishActivity
 import br.com.distribuidoradosapao.viewmodels.client.ClientViewModel
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import org.koin.android.ext.android.inject
@@ -23,7 +22,7 @@ class ClientRequestFinishFragment : Fragment() {
 
     private val viewModel: ClientViewModel by inject()
 
-    private var adapterClient: ClientRequestFinishAdapter? = null
+    private var adapterClient: ClientRequestAdapter? = null
     private var options: FirestoreRecyclerOptions<Client>? = null
 
     override fun onCreateView(
@@ -32,22 +31,22 @@ class ClientRequestFinishFragment : Fragment() {
         _binding = FragmentClientRequestFinishBinding.inflate(inflater, container, false)
 
         setViewModel()
-        viewModel.loadClients()
+        viewModel.loadClientDeleted()
         return binding.root
     }
 
     private fun setViewModel() {
-        viewModel.loadClient.observe(viewLifecycleOwner) {
+        viewModel.loadClientDeleted.observe(viewLifecycleOwner) {
 
             options =
                 FirestoreRecyclerOptions.Builder<Client>().setQuery(it, Client::class.java).build()
 
-            adapterClient = ClientRequestFinishAdapter(options!!, ::navigateRequestClientFragment)
+            adapterClient = ClientRequestAdapter(options!!, ::navigateRequestClientFragment)
 
             binding.rcClients.apply {
                 adapter = adapterClient
                 setHasFixedSize(true)
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                layoutManager = GridLayoutManager(context, 2)
             }
 
             adapterClient?.startListening()
@@ -55,7 +54,7 @@ class ClientRequestFinishFragment : Fragment() {
     }
 
     private fun navigateRequestClientFragment(idClient: String, client: Client) {
-        val intent = Intent(requireContext(), RequestClientActivity::class.java)
+        val intent = Intent(requireContext(), RequestClientFinishActivity::class.java)
         intent.putExtra("idClient", idClient)
         intent.putExtra("user", client)
         startActivity(intent)

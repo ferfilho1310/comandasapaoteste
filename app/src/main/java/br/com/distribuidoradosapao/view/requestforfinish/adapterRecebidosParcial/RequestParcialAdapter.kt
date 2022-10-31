@@ -1,11 +1,10 @@
-package br.com.distribuidoradosapao.view.requestfinish.adapterRecebidosParcial
+package br.com.distribuidoradosapao.view.requestforfinish.adapterRecebidosParcial
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import br.com.distribuidoradosapao.R
 import br.com.distribuidoradosapao.model.PedidoRecebidoParcial
-import br.com.distribuidoradosapao.view.client.adapter.ClientRequestFinishViewHolder
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 

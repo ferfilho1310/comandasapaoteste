@@ -31,11 +31,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.MainActivity"
+            android:name=".view.main.MainActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.DistribuidoraDoSapao.NoActionBar" />
-        <activity android:name=".view.request.RequestClientActivity"
+        <activity
+            android:name=".view.request.RequestClientFinishActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.DistribuidoraDoSapao.NoActionBar"/>
+        <activity
+            android:name=".view.request.RequestClientActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.DistribuidoraDoSapao.NoActionBar"/>
