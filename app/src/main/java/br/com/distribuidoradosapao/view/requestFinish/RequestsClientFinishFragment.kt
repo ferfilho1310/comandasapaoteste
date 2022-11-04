@@ -56,23 +56,7 @@ class RequestsClientFinishFragment(
                 .build()
 
             adapterRequest =
-                RequestFinishAdapter(options!!, object : RequestFinishAdapter.ListenerOnDataChanged {
-                    override fun onDataChanged(countData: Int) {
-                        if (countData == 0) {
-                            /*   setVisibility(
-                                   isVisibleLottie = true,
-                                   isVisibleRecyclerView = false,
-                                   isVisibleTextLottie = true
-                               )*/
-                        } else {
-                            /*setVisibility(
-                                isVisibleLottie = false,
-                                isVisibleRecyclerView = true,
-                                isVisibleTextLottie = false
-                            )*/
-                        }
-                    }
-                })
+                RequestFinishAdapter(options!!)
 
             binding.recyclerView.apply {
                 adapter = adapterRequest
@@ -87,7 +71,7 @@ class RequestsClientFinishFragment(
 
     private fun setupViewModelSum() {
         viewModel.somaRequestClient.observe(viewLifecycleOwner) {
-            binding.tvTotalRequestClient.text = "R$ ".plus(it)
+            binding.tvTotalRequestClient.text = "R$ ".plus("%.2f".format(it))
         }
     }
 

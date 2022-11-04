@@ -3,16 +3,14 @@ package br.com.distribuidoradosapao.view.request
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import br.com.distribuidoradosapao.R
 import br.com.distribuidoradosapao.databinding.ActivityRequestClientBinding
 import br.com.distribuidoradosapao.model.Client
 import br.com.distribuidoradosapao.view.main.MainActivity
-import br.com.distribuidoradosapao.view.requestFinish.PedidosRecebidosFinalizadosFragment
+import br.com.distribuidoradosapao.view.requestFinish.RequestReceivedFinishFragment
 import br.com.distribuidoradosapao.view.requestFinish.RequestsClientFinishFragment
 import br.com.distribuidoradosapao.view.requestforfinish.ViewPagerAdapter
 import br.com.distribuidoradosapao.viewmodels.client.ClientViewModel
@@ -71,7 +69,7 @@ class RequestClientFinishActivity : AppCompatActivity() {
             ), "Anotados"
         )
         adapter.addFragment(
-            PedidosRecebidosFinalizadosFragment.newInstance(idClient),
+            RequestReceivedFinishFragment.newInstance(idClient),
             "Recebebido"
         )
         binding.viewPager.adapter = adapter

@@ -66,7 +66,7 @@ class RequestClientActivity : AppCompatActivity(), View.OnClickListener {
             ), "Anotados"
         )
         adapter.addFragment(
-            PedidosRecebidosFragment.newInstance(idClient),
+            RequestReceivedFragment.newInstance(idClient),
             "Recebido Parcial"
         )
         binding.viewPager.adapter = adapter

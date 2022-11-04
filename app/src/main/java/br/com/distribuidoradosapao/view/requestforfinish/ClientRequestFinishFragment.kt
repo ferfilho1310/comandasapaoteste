@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import br.com.distribuidoradosapao.databinding.FragmentClientRequestFinishBinding
@@ -41,7 +42,13 @@ class ClientRequestFinishFragment : Fragment() {
             options =
                 FirestoreRecyclerOptions.Builder<Client>().setQuery(it, Client::class.java).build()
 
-            adapterClient = ClientRequestAdapter(options!!, ::navigateRequestClientFragment)
+            adapterClient = ClientRequestAdapter(
+                options!!,
+                ::navigateRequestClientFragment,
+                { count ->
+                    showHideNoData(count > 0)
+                }
+            )
 
             binding.rcClients.apply {
                 adapter = adapterClient
@@ -50,6 +57,13 @@ class ClientRequestFinishFragment : Fragment() {
             }
 
             adapterClient?.startListening()
+        }
+    }
+
+    private fun showHideNoData(isHaveData: Boolean) {
+        binding.apply {
+            rcClients.isVisible = isHaveData
+            llVazio.isVisible = !isHaveData
         }
     }
 

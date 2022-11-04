@@ -16,7 +16,7 @@ import br.com.distribuidoradosapao.databinding.ActivityMainBinding
 import br.com.distribuidoradosapao.view.client.ClientFragment
 import br.com.distribuidoradosapao.view.client.ClientRequestFinishFragment
 import br.com.distribuidoradosapao.view.login.SignUpUserActivity
-import br.com.distribuidoradosapao.view.relatorioVendas.RelatorioVendasFragment
+import br.com.distribuidoradosapao.view.salesReport.SalesReportFragment
 import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity(),
@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity(),
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.nav_relatorio_vendas -> navigateFragment(RelatorioVendasFragment())
+            R.id.nav_relatorio_vendas -> navigateFragment(SalesReportFragment())
             R.id.nav_client -> {
                 navigateFragment(ClientFragment.newInstance())
             }

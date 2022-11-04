@@ -79,10 +79,14 @@
             android:textAllCaps="false"
             android:textColor="@color/black" />
 
-        <ProgressBar
+        <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/pg_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_repeatMode="restart"
+            app:lottie_url="https://assets2.lottiefiles.com/packages/lf20_dYwT3b.json"
             android:visibility="gone"
             android:layout_marginTop="32dp" />
 

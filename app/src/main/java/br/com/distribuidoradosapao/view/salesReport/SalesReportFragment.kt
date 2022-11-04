@@ -1,23 +1,19 @@
-package br.com.distribuidoradosapao.view.relatorioVendas
+package br.com.distribuidoradosapao.view.salesReport
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.core.view.get
-import br.com.distribuidoradosapao.R
-import br.com.distribuidoradosapao.databinding.FragmentRelatorioVendasBinding
-import br.com.distribuidoradosapao.model.Request
+import androidx.fragment.app.Fragment
+import br.com.distribuidoradosapao.databinding.FragmentSalesReportBinding
 import br.com.distribuidoradosapao.viewmodels.request.RequestClientViewModel
 import org.koin.android.ext.android.inject
-import kotlin.math.roundToInt
 
-class RelatorioVendasFragment : Fragment() {
+class SalesReportFragment : Fragment() {
 
-    private var _binding: FragmentRelatorioVendasBinding? = null
+    private var _binding: FragmentSalesReportBinding? = null
     val binding get() = _binding!!
 
     val viewModel: RequestClientViewModel by inject()
@@ -26,7 +22,7 @@ class RelatorioVendasFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentRelatorioVendasBinding.inflate(inflater, container, false)
+        _binding = FragmentSalesReportBinding.inflate(inflater, container, false)
         viewModel.loadAllRequest()
         setListenerSpinner()
         setViewModel()
@@ -66,6 +62,6 @@ class RelatorioVendasFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance() =
-            RelatorioVendasFragment()
+            SalesReportFragment()
     }
 }

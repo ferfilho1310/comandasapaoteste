@@ -53,7 +53,6 @@ class RegisterUserActivity : AppCompatActivity(), View.OnClickListener {
                     Toast.LENGTH_LONG
                 ).show()
             } else {
-                setVisibleProgressBarButton()
                 startSignUpActivity()
             }
         }
@@ -98,7 +97,7 @@ class RegisterUserActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun setVisibleProgressBarButton() {
-        binding.pgRegisterUser.isVisible = false
-        binding.btCadastrar.isVisible = true
+        binding.pgRegisterUser.isVisible = true
+        binding.btCadastrar.isVisible = false
     }
 }

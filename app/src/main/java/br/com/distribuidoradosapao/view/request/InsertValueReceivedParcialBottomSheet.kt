@@ -12,7 +12,7 @@ import br.com.distribuidoradosapao.viewmodels.request.RequestClientViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.koin.android.ext.android.inject
 
-class InsertValueRecebidoParcialBottomSheet(
+class InsertValueReceivedParcialBottomSheet(
     var idClient: String,
     var listener: (String) -> Unit,
     var recebido: Recebido
@@ -97,8 +97,8 @@ class InsertValueRecebidoParcialBottomSheet(
             idClient: String,
             listener: (String) -> Unit,
             recebido: Recebido
-        ): InsertValueRecebidoParcialBottomSheet {
-            return InsertValueRecebidoParcialBottomSheet(idClient, listener, recebido)
+        ): InsertValueReceivedParcialBottomSheet {
+            return InsertValueReceivedParcialBottomSheet(idClient, listener, recebido)
         }
     }
 }

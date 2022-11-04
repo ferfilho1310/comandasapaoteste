@@ -2,21 +2,17 @@ package br.com.distribuidoradosapao.view.client
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import br.com.distribuidoradosapao.R
 import br.com.distribuidoradosapao.databinding.FragmentClientBinding
 import br.com.distribuidoradosapao.model.Client
-import br.com.distribuidoradosapao.util.AdapterViewEmpty
 import br.com.distribuidoradosapao.view.client.adapter.ClientAdapter
 import br.com.distribuidoradosapao.view.request.RequestClientActivity
-import br.com.distribuidoradosapao.view.request.RequestClientFinishActivity
 import br.com.distribuidoradosapao.viewmodels.client.ClientViewModel
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import org.koin.android.ext.android.inject
@@ -46,20 +42,33 @@ class ClientFragment : Fragment(), View.OnClickListener {
         viewModel.loadClient.observe(viewLifecycleOwner) {
 
             options =
-                FirestoreRecyclerOptions.Builder<Client>().setQuery(it, Client::class.java).build()
+                FirestoreRecyclerOptions
+                    .Builder<Client>()
+                    .setQuery(it, Client::class.java)
+                    .setLifecycleOwner(this)
+                    .build()
 
-                adapterClient = ClientAdapter(
-                    options!!,
-                    ::navigateRequestClientFragment,
-                    ::editDataClient
-                )
-
-                binding.rcClients.apply {
-                    adapter = adapterClient
-                    setHasFixedSize(true)
-                    layoutManager = GridLayoutManager(context, 2)
+            adapterClient = ClientAdapter(
+                options!!,
+                ::navigateRequestClientFragment,
+                ::editDataClient,
+                { count ->
+                    showHideNoData(count > 0)
                 }
-            adapterClient?.startListening()
+            )
+
+            binding.rcClients.apply {
+                adapter = adapterClient
+                setHasFixedSize(true)
+                layoutManager = GridLayoutManager(context, 2)
+            }
+        }
+    }
+
+    private fun showHideNoData(isHaveData: Boolean) {
+        binding.apply {
+            rcClients.isVisible = isHaveData
+            llVazio.isVisible = !isHaveData
         }
     }
 

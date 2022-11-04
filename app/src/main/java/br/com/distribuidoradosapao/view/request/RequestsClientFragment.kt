@@ -1,11 +1,11 @@
 package br.com.distribuidoradosapao.view.request
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import br.com.distribuidoradosapao.R
 import br.com.distribuidoradosapao.databinding.FragmentRequestsClientBinding
@@ -13,7 +13,6 @@ import br.com.distribuidoradosapao.model.Client
 import br.com.distribuidoradosapao.model.Request
 import br.com.distribuidoradosapao.view.request.adapter.RequestAdapter
 import br.com.distribuidoradosapao.view.request.adapter.RequestAdapter.ListenerEditRequest
-import br.com.distribuidoradosapao.view.request.adapter.RequestAdapter.ListenerOnDataChanged
 import br.com.distribuidoradosapao.viewmodels.client.ClientViewModel
 import br.com.distribuidoradosapao.viewmodels.request.RequestClientViewModel
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
@@ -31,7 +30,6 @@ class RequestsClientFragment(
     private var options: FirestoreRecyclerOptions<Request>? = null
 
     private val viewModel: RequestClientViewModel by inject()
-    private val viewModelClient: ClientViewModel by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,29 +61,16 @@ class RequestsClientFragment(
                 .build()
 
             adapterRequest =
-                RequestAdapter(options!!, object : ListenerOnDataChanged {
-                    override fun onDataChanged(countData: Int) {
-                        if (countData == 0) {
-                            /*   setVisibility(
-                                   isVisibleLottie = true,
-                                   isVisibleRecyclerView = false,
-                                   isVisibleTextLottie = true
-                               )*/
-
-                        } else {
-                            /*setVisibility(
-                                isVisibleLottie = false,
-                                isVisibleRecyclerView = true,
-                                isVisibleTextLottie = false
-                            )*/
-                        }
-                    }
-                }, object : ListenerEditRequest {
+                RequestAdapter(options!!,
+                    object : ListenerEditRequest {
                     override fun onEditRequest(idRequest: String, model: Request) {
                         editRequest(idRequest, model)
 
                     }
-                })
+                }
+                ) { count ->
+                    showHideNoData(count > 0)
+                }
 
             binding.recyclerView.apply {
                 adapter = adapterRequest
@@ -98,9 +83,16 @@ class RequestsClientFragment(
         }
     }
 
+    private fun showHideNoData(isHaveData: Boolean) {
+        binding.apply {
+            recyclerView.isVisible = isHaveData
+            llVazio.isVisible = !isHaveData
+        }
+    }
+
     private fun editRequest(idRequest: String, model: Request) {
-         val bottomSheet =
-             EditRequestBottomSheet.newInstance(idRequest, idClient, ::listenerSumTotal, model)
+        val bottomSheet =
+            EditRequestBottomSheet.newInstance(idRequest, idClient, ::listenerSumTotal, model)
         bottomSheet.show(childFragmentManager, "TAG")
     }
 
@@ -115,12 +107,12 @@ class RequestsClientFragment(
     }
 
     private fun listenerSumTotal(sumRequest: String) {
-        binding.tvTotalRequestClient.text = "R$ ".plus(sumRequest)
+        binding.tvTotalRequestClient.text = "R$ ".plus("%.2f".format(sumRequest))
     }
 
     private fun setupViewModelSum() {
         viewModel.somaRequestClient.observe(viewLifecycleOwner) {
-            binding.tvTotalRequestClient.text = "R$ ".plus(it)
+            binding.tvTotalRequestClient.text = "R$ ".plus("%.2f".format(it))
         }
     }
 
