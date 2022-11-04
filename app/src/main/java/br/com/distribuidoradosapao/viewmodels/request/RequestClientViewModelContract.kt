@@ -13,4 +13,6 @@ interface RequestClientViewModelContract {
     fun somaReceberParcial(idClient: String, somaTotal: Float)
     fun loadSomaParcial(idClient: String)
     fun updateRequest(idRequest: String, request: Request)
+    fun filterRequestForDate(data: String)
+    fun loadAllRequest()
 }

@@ -83,9 +83,9 @@ class ClientService : ClientServiceContract {
         }
     }
 
-    override fun insertClientDeleted(client: Client, idClient: String): Flow<Boolean> {
+    override fun insertClientDeleted(client: Client, idClient: String, isComandaClosed: Boolean): Flow<Boolean> {
         return callbackFlow {
-            val clientMap: MutableMap<String, String> = HashMap()
+            val clientMap: MutableMap<String, Any> = HashMap()
             clientMap["name"] = client.name.toString()
             clientMap["date"] = client.date.toString()
             clientMap["nameAtendente"] = client.nameAtendente.toString()

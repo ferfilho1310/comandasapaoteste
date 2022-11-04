@@ -10,7 +10,7 @@ interface ClientServiceContract {
     fun loadClients() : Flow<Query>
     fun deleteClient(idClient: String): Flow<Boolean>
     fun searchClientBeforeDeleted(idClient: String): Flow<Client?>
-    fun insertClientDeleted(client: Client, idClient: String): Flow<Boolean>
+    fun insertClientDeleted(client: Client, idClient: String, isComandaClosed: Boolean): Flow<Boolean>
     fun loadOneClient(idClient: String): Flow<Client?>
     fun updateClient(idClient: String,client: Client): Flow<Boolean>
     fun loadClientsDeleted(): Flow<Query>

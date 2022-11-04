@@ -89,7 +89,7 @@ class EditRequestBottomSheet(
                     viewModel.updateRequest(
                         idRequest,
                         Request(
-                            amount = edRequestClientQuantity.text.toString().toInt(),
+                            amount = edRequestClientQuantity.text.toString(),
                             nameProduct = edProductRequestClient.text.toString(),
                             valueUnit = edRequestClientValue.text.toString().toFloat(),
                         )

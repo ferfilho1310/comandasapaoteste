@@ -25,10 +25,12 @@ class RequestClientService : RequestClientServiceContract {
         return callbackFlow {
             val mapRequest: MutableMap<String, Any> = HashMap()
             mapRequest["idClient"] = request.idClient.toString()
-            mapRequest["amount"] = request.amount!!
+            mapRequest["amount"] = request.amount.orEmpty()
             mapRequest["nameProduct"] = request.nameProduct.toString()
             mapRequest["valueUnit"] = request.valueUnit!!
-            mapRequest["valueTotal"] = request.amount * request.valueUnit
+            mapRequest["valueTotal"] = request.amount?.toInt()!! * request.valueUnit
+            mapRequest["date"] = request.date.toString()
+            mapRequest["isComandaClosed"] = request.isComandaClosed
 
             val listener =
                 db.collection("Pedidos").add(mapRequest)
@@ -169,15 +171,48 @@ class RequestClientService : RequestClientServiceContract {
             mapUpdateRequest["amount"] = request.amount!!
             mapUpdateRequest["nameProduct"] = request.nameProduct.toString()
             mapUpdateRequest["valueUnit"] = request.valueUnit!!
-            mapUpdateRequest["valueTotal"] = request.amount * request.valueUnit
+            mapUpdateRequest["valueTotal"] = request.amount.toInt() * request.valueUnit
 
             val listerner = db.collection("Pedidos").document(idRequest).update(mapUpdateRequest)
                 .addOnSuccessListener { trySend(true).isSuccess }
                 .addOnFailureListener {
                     Log.e("TAG", "Error ao atualizar o pedido $it")
-                    trySend(false).isFailure }
+                    trySend(false).isFailure
+                }
             awaitClose {
                 listerner.isCanceled
+            }
+        }
+    }
+
+    override fun filterRequestForDate(data: String): Flow<MutableList<Request>?> {
+        return callbackFlow {
+            try {
+                val listener = db.collection("Pedidos").whereEqualTo("date", data).orderBy("date")
+                listener.addSnapshotListener { value, error ->
+                    trySend(value?.toObjects(Request::class.java)).isSuccess
+                }
+            } catch (ex: Exception) {
+                trySend(arrayListOf()).isFailure
+            }
+            awaitClose {
+
+            }
+        }
+    }
+
+    override fun loadAllRequest(): Flow<MutableList<Request>?> {
+        return callbackFlow {
+            val listener = db.collection("Pedidos")
+                .get()
+                .addOnSuccessListener {
+                    val requestList = it.toObjects(Request::class.java)
+                    trySend(requestList).isSuccess
+                }.addOnFailureListener {
+                    trySend(arrayListOf()).isFailure
+                }
+            awaitClose {
+                listener.isCanceled
             }
         }
     }

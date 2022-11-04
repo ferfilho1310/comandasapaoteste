@@ -42,13 +42,20 @@ class RequestClientViewModel(
     private var _updateRequest: MutableLiveData<Boolean> = MutableLiveData()
     var updateRequest: LiveData<Boolean> = _updateRequest
 
+    private var _filterRequestForDate: MutableLiveData<Float> = MutableLiveData()
+    var filterRequestForDate: LiveData<Float> = _filterRequestForDate
+
+    private var _loadAllRequest: MutableLiveData<List<String>?> = MutableLiveData()
+    var loadAllRequest: LiveData<List<String>?> = _loadAllRequest
 
     private var sum: ArrayList<Float> = arrayListOf()
     private var sumRecebidoParcial: ArrayList<Float> = arrayListOf()
     private var sumRecebidoParcial1: ArrayList<Float> = arrayListOf()
+    private var sumPedidoPorData: ArrayList<Float> = arrayListOf()
 
     private var sumTotal = 0f
     private var sumTotalParcial = 0f
+    private var sumTotalPedidosPorData = 0f
 
     override fun insertRequestClient(request: Request) {
         requestClientService.insertRequestClient(request)
@@ -141,6 +148,39 @@ class RequestClientViewModel(
                 _updateRequest.value = it
             }.catch {
                 Log.e("TAG", "Error ao atualizar o pedido $it")
+            }.launchIn(viewModelScope)
+    }
+
+    override fun filterRequestForDate(data: String) {
+        if (data.equals("Selecione uma data")) {
+            sumPedidoPorData.clear()
+            _filterRequestForDate.value = 0.00f
+            sumTotalPedidosPorData = 0f
+        } else {
+            sumTotalPedidosPorData = 0f
+            requestClientService.filterRequestForDate(data)
+                .onEach {
+                    sumPedidoPorData.clear()
+                    it?.forEach {
+                        sumPedidoPorData.add(it.valueTotal!!.toFloat())
+                    }
+                    sumPedidoPorData.forEach {
+                        sumTotalPedidosPorData += it
+                    }
+
+                    _filterRequestForDate.value = sumTotalPedidosPorData
+                }.catch {
+
+                }.launchIn(viewModelScope)
+        }
+    }
+
+    override fun loadAllRequest() {
+        requestClientService.loadAllRequest()
+            .onEach {
+                _loadAllRequest.value = it?.map { it.date!! }?.distinct()
+            }.catch {
+                Log.e("ERROR", "Erro ao buscar os pedidos $it")
             }.launchIn(viewModelScope)
     }
 }

@@ -14,7 +14,6 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions
 
 class ClientAdapter(
     options: FirestoreRecyclerOptions<Client>,
-    private val listener: ListenerOnDataChanged,
     private val dataClient: (String, Client) -> Unit,
     private val idClient: (String) -> Unit
 ) : FirestoreRecyclerAdapter<Client, RecyclerView.ViewHolder>(options) {
@@ -38,10 +37,5 @@ class ClientAdapter(
                 idClient.invoke(snapshots.getSnapshot(position).reference.id)
             }
         }
-    }
-
-    interface ListenerOnDataChanged {
-        fun onDataChangedEmpty(countData: Int)
-        fun onDataChangedIsNotEmpty(countData: Int)
     }
 }

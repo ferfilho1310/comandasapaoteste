@@ -71,7 +71,8 @@ class InsertClientBottomSheet(
                 if (it == true) {
                     dismiss()
                 } else {
-                    Toast.makeText(context, "Erro ao atualizar dados do cliente", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, "Erro ao atualizar dados do cliente", Toast.LENGTH_LONG)
+                        .show()
                 }
             }
         } ?: run {
@@ -126,7 +127,9 @@ class InsertClientBottomSheet(
     }
 
     companion object {
-        fun newInstance(idClient: String?): InsertClientBottomSheet {
+        fun newInstance(
+            idClient: String?,
+        ): InsertClientBottomSheet {
             return InsertClientBottomSheet(idClient)
         }
     }

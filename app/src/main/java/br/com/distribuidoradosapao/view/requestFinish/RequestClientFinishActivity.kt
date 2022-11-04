@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import br.com.distribuidoradosapao.R
 import br.com.distribuidoradosapao.databinding.ActivityRequestClientBinding
 import br.com.distribuidoradosapao.model.Client
@@ -26,6 +27,7 @@ class RequestClientFinishActivity : AppCompatActivity() {
 
     private var client: Client? = null
     private var idClient: String = String()
+    private var isClientRequestFinish: Boolean = false
 
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,12 +45,21 @@ class RequestClientFinishActivity : AppCompatActivity() {
         val intent = intent
         idClient = getDataClient(intent).orEmpty()
         client = getDataUser(intent)
+        isClientRequestFinish = getDataInformattionRequest(intent)
+        verifyIfisClientRequestFinish(isClientRequestFinish)
 
         supportActionBar?.title = "Pedidos do(a) ".plus(client?.name)
 
-
         setupViewModelDeleteClient()
         setupViewPager()
+    }
+
+    private fun getDataInformattionRequest(iDataClient: Intent): Boolean {
+        return iDataClient.getBooleanExtra("isClientRequestFinish", false)
+    }
+
+    private fun verifyIfisClientRequestFinish(isClientRequestFinish: Boolean) {
+        binding.tvFinalizarComanda.isVisible = !isClientRequestFinish
     }
 
     private fun setupViewPager() {

@@ -111,17 +111,6 @@ class RequestsClientFragment(
                     InsertRequestClientBottomSheet.newInstance(idClient, ::listenerSumTotal)
                 bottomSheet.show(childFragmentManager, "TAG")
             }
-            R.id.tv_finalizar_comanda -> {
-                val alertDialog = AlertDialog.Builder(requireActivity())
-                    .setTitle("Finalizar comanda")
-                    .setMessage("Deseja realmente finalizar a comanda do cliente?")
-                    .setPositiveButton("Sim") { p0, p1 ->
-                        viewModelClient.searchClient(idClient)
-                    }.setNegativeButton("Não") { p0, p1 ->
-                        p0.dismiss()
-                    }
-                alertDialog.show()
-            }
         }
     }
 

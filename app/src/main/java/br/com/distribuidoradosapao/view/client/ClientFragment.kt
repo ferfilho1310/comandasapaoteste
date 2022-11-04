@@ -2,14 +2,18 @@ package br.com.distribuidoradosapao.view.client
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import br.com.distribuidoradosapao.R
 import br.com.distribuidoradosapao.databinding.FragmentClientBinding
 import br.com.distribuidoradosapao.model.Client
+import br.com.distribuidoradosapao.util.AdapterViewEmpty
 import br.com.distribuidoradosapao.view.client.adapter.ClientAdapter
 import br.com.distribuidoradosapao.view.request.RequestClientActivity
 import br.com.distribuidoradosapao.view.request.RequestClientFinishActivity
@@ -44,26 +48,17 @@ class ClientFragment : Fragment(), View.OnClickListener {
             options =
                 FirestoreRecyclerOptions.Builder<Client>().setQuery(it, Client::class.java).build()
 
-            adapterClient = ClientAdapter(
-                options!!, object : ClientAdapter.ListenerOnDataChanged {
-                    override fun onDataChangedEmpty(countData: Int) {
+                adapterClient = ClientAdapter(
+                    options!!,
+                    ::navigateRequestClientFragment,
+                    ::editDataClient
+                )
 
-                    }
-
-                    override fun onDataChangedIsNotEmpty(countData: Int) {
-
-                    }
-                },
-                ::navigateRequestClientFragment,
-                ::editDataClient
-            )
-
-            binding.rcClients.apply {
-                adapter = adapterClient
-                setHasFixedSize(true)
-                layoutManager = GridLayoutManager(context, 2)
-            }
-
+                binding.rcClients.apply {
+                    adapter = adapterClient
+                    setHasFixedSize(true)
+                    layoutManager = GridLayoutManager(context, 2)
+                }
             adapterClient?.startListening()
         }
     }
@@ -72,6 +67,7 @@ class ClientFragment : Fragment(), View.OnClickListener {
         val intent = Intent(requireContext(), RequestClientActivity::class.java)
         intent.putExtra("idClient", idClient)
         intent.putExtra("user", client)
+        intent.putExtra("isClientRequestFinish", false)
         startActivity(intent)
     }
 
@@ -92,7 +88,7 @@ class ClientFragment : Fragment(), View.OnClickListener {
     }
 
     override fun onClick(p0: View?) {
-        when(p0?.id){
+        when (p0?.id) {
             R.id.fab -> {
                 val bottomSheet = InsertClientBottomSheet()
                 bottomSheet.show(childFragmentManager, "TAG")

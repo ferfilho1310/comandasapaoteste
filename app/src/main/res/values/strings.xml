@@ -8,8 +8,8 @@
     <string name="action_settings">Settings</string>
 
     <string name="menu_client">Comandas</string>
-    <string name="menu_gallery">Comandas Finalizadas</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_client_finish">Comandas Finalizadas</string>
+    <string name="menu_relatorio">Relatório de vendas</string>
 
     <string name="open_drawer">Abrir</string>
     <string name="close_drawer">Fechar</string>

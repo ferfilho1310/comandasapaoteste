@@ -17,6 +17,8 @@ import br.com.distribuidoradosapao.view.request.adapter.RequestFinishAdapter
 import br.com.distribuidoradosapao.viewmodels.client.ClientViewModel
 import br.com.distribuidoradosapao.viewmodels.request.RequestClientViewModel
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.ktx.Firebase
 import org.koin.android.ext.android.inject
 
 class RequestsClientFinishFragment(

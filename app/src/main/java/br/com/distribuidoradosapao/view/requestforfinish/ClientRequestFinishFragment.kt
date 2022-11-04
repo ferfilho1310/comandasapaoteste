@@ -57,6 +57,7 @@ class ClientRequestFinishFragment : Fragment() {
         val intent = Intent(requireContext(), RequestClientFinishActivity::class.java)
         intent.putExtra("idClient", idClient)
         intent.putExtra("user", client)
+        intent.putExtra("isClientRequestFinish", true)
         startActivity(intent)
     }
 

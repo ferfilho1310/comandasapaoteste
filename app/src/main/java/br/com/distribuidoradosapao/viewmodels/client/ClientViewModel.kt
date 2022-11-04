@@ -3,7 +3,9 @@ package br.com.distribuidoradosapao.viewmodels.client
 import android.util.Log
 import androidx.lifecycle.*
 import br.com.distribuidoradosapao.firebaseservice.client.ClientServiceContract
+import br.com.distribuidoradosapao.firebaseservice.request.RequestClientService
 import br.com.distribuidoradosapao.model.Client
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
@@ -63,19 +65,23 @@ class ClientViewModel(
             }.launchIn(viewModelScope)
     }
 
-    override fun searchClient(idClient: String) {
+    override fun searchClient(idClient: String, isComandaFinalizada: Boolean) {
         service.searchClientBeforeDeleted(idClient)
             .onEach {
-                insertClientBeforeDelete(it, idClient)
+                insertClientBeforeDelete(it, idClient, isComandaFinalizada)
             }.catch {
                 _deletClient.value = false
                 Log.e("Erro", "Não foi possível encontrar o cliente: $it")
             }.launchIn(viewModelScope)
     }
 
-    override fun insertClientBeforeDelete(client: Client?, idClient: String) {
+    override fun insertClientBeforeDelete(
+        client: Client?,
+        idClient: String,
+        isComandaFinalizada: Boolean
+    ) {
         if (client != null) {
-            service.insertClientDeleted(client, idClient)
+            service.insertClientDeleted(client, idClient, isComandaFinalizada)
                 .onEach {
                     if (it) {
                         deletClient(idClient)

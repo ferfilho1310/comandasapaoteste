@@ -1,11 +1,13 @@
 package br.com.distribuidoradosapao.view.request
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import br.com.distribuidoradosapao.R
 import br.com.distribuidoradosapao.databinding.ActivityRequestClientBinding
 import br.com.distribuidoradosapao.model.Client
@@ -23,7 +25,9 @@ class RequestClientActivity : AppCompatActivity(), View.OnClickListener {
 
     private var client: Client? = null
     private var idClient: String = String()
+    private var isClientRequestFinish: Boolean = false
 
+    @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRequestClientBinding.inflate(layoutInflater)
@@ -39,12 +43,18 @@ class RequestClientActivity : AppCompatActivity(), View.OnClickListener {
         val intent = intent
         idClient = getDataClient(intent).orEmpty()
         client = getDataUser(intent)
+        isClientRequestFinish = getDataInformattionRequest(intent)
+        verifyIfisClientRequestFinish(isClientRequestFinish)
 
         supportActionBar?.title = "Pedidos do(a) ".plus(client?.name)
 
         setupListeners()
         setupViewModelDeleteClient()
         setupViewPager()
+    }
+
+    private fun verifyIfisClientRequestFinish(isClientRequestFinish: Boolean) {
+        binding.tvFinalizarComanda.isVisible = !isClientRequestFinish
     }
 
     private fun setupViewPager() {
@@ -73,6 +83,10 @@ class RequestClientActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun getDataUser(iDataClient: Intent): Client? {
         return iDataClient.getParcelableExtra("user")
+    }
+
+    private fun getDataInformattionRequest(iDataClient: Intent): Boolean {
+        return iDataClient.getBooleanExtra("isClientRequestFinish", false)
     }
 
     private fun setListenerToolbar() {
@@ -108,7 +122,7 @@ class RequestClientActivity : AppCompatActivity(), View.OnClickListener {
                     .setTitle("Finalizar comanda")
                     .setMessage("Deseja realmente finalizar a comanda do cliente?")
                     .setPositiveButton("Sim") { p0, p1 ->
-                        viewModelClient.searchClient(idClient)
+                        viewModelClient.searchClient(idClient, true)
                     }.setNegativeButton("Não") { p0, p1 ->
                         p0.dismiss()
                     }

@@ -15,4 +15,6 @@ interface RequestClientServiceContract {
     fun recebido(idClient: String): Flow<Float>
     fun loadSomaParcial(idClient: String): Flow<Query>
     fun updateRequest(idRequest: String, request: Request): Flow<Boolean>
+    fun filterRequestForDate(data: String): Flow<MutableList<Request>?>
+    fun loadAllRequest(): Flow<MutableList<Request>?>
 }

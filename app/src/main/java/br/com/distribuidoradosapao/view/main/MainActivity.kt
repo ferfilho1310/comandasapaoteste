@@ -13,10 +13,10 @@ import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import br.com.distribuidoradosapao.R
 import br.com.distribuidoradosapao.databinding.ActivityMainBinding
-import br.com.distribuidoradosapao.view.SlideshowFragment
 import br.com.distribuidoradosapao.view.client.ClientFragment
 import br.com.distribuidoradosapao.view.client.ClientRequestFinishFragment
 import br.com.distribuidoradosapao.view.login.SignUpUserActivity
+import br.com.distribuidoradosapao.view.relatorioVendas.RelatorioVendasFragment
 import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity(),
@@ -25,8 +25,6 @@ class MainActivity : AppCompatActivity(),
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var drawerLayout: DrawerLayout
-
-    var isFinishRequestClicked = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,11 +40,11 @@ class MainActivity : AppCompatActivity(),
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.nav_slideshow -> navigateFragment(SlideshowFragment())
+            R.id.nav_relatorio_vendas -> navigateFragment(RelatorioVendasFragment())
             R.id.nav_client -> {
                 navigateFragment(ClientFragment.newInstance())
             }
-            R.id.nav_gallery -> {
+            R.id.nav_client_finish -> {
                 navigateFragment(ClientRequestFinishFragment.newInstance())
             }
         }
