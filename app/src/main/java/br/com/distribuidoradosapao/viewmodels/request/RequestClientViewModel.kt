@@ -50,7 +50,6 @@ class RequestClientViewModel(
 
     private var sum: ArrayList<Float> = arrayListOf()
     private var sumRecebidoParcial: ArrayList<Float> = arrayListOf()
-    private var sumRecebidoParcial1: ArrayList<Float> = arrayListOf()
     private var sumPedidoPorData: ArrayList<Float> = arrayListOf()
 
     private var sumTotal = 0f
@@ -60,7 +59,7 @@ class RequestClientViewModel(
     override fun insertRequestClient(request: Request) {
         requestClientService.insertRequestClient(request)
             .onEach {
-                _insertRequestClient.value = it
+               _insertRequestClient.postValue(it)
             }.catch {
                 Log.e("TAG", "Erro ao inserir pedido $it")
             }.launchIn(viewModelScope)
@@ -69,7 +68,7 @@ class RequestClientViewModel(
     override fun loadRequests(idClient: String) {
         requestClientService.loadRequests(idClient)
             .onEach { requests ->
-                _loadRequestClient.value = requests
+                _loadRequestClient.postValue(requests)
             }.catch {
                 Log.e("TAG", "Erro ao carregar pedidos $it")
             }.launchIn(viewModelScope)
@@ -85,17 +84,16 @@ class RequestClientViewModel(
                 sum.forEach {
                     sumTotal += it
                 }
-                somaReceberParcial(idClient, sumTotal)
-                _somaRequestClient.value = sumTotal
+                _somaRequestClient.postValue(sumTotal)
             }.catch {
                 Log.e("TAG", "Erro ao efetuar a soma dos pedidos $it")
             }.launchIn(viewModelScope)
     }
 
-    override fun receberPedidoParcial(recebidoParcial: PedidoRecebidoParcial) {
+    override fun insertValueReceivedPartial(recebidoParcial: PedidoRecebidoParcial) {
         requestClientService.receberPedidoParcial(recebidoParcial)
             .onEach {
-                _insertRequestPartial.value = it
+                _insertRequestPartial.postValue(it)
             }.catch {
                 Log.e("TAG", "Erro ao receber pedido parcial $it")
             }.launchIn(viewModelScope)
@@ -111,41 +109,25 @@ class RequestClientViewModel(
                 sumRecebidoParcial.forEach {
                     sumTotalParcial += it
                 }
-                _somaPedidosParcial.value = sumTotalParcial
+                _somaPedidosParcial.postValue(sumTotalParcial)
             }.catch {
-
-            }.launchIn(viewModelScope)
-    }
-
-    override fun somaReceberParcial(idClient: String, somaTotal: Float) {
-        sumRecebidoParcial1.clear()
-        requestClientService.somaReceberParcial(idClient)
-            .onEach {
-                it?.forEach { valueProduct ->
-                    sumRecebidoParcial1.add(valueProduct.value!!.toFloat())
-                }
-                sumRecebidoParcial1.forEach {
-                    sumTotalParcial += it
-                }
-                _recebido.value = somaTotal - sumTotalParcial
-            }.catch {
-
+                Log.e("TAG", "Error ao fazer a soma parcial $it")
             }.launchIn(viewModelScope)
     }
 
     override fun loadSomaParcial(idClient: String) {
         requestClientService.loadSomaParcial(idClient)
             .onEach {
-                _loadSomaParcial.value = it
+                _loadSomaParcial.postValue(it)
             }.catch {
-
+                Log.e("TAG", "Error ao carregar o recebido parcial $it")
             }.launchIn(viewModelScope)
     }
 
     override fun updateRequest(idRequest: String, request: Request) {
         requestClientService.updateRequest(idRequest, request)
             .onEach {
-                _updateRequest.value = it
+                _updateRequest.postValue(it)
             }.catch {
                 Log.e("TAG", "Error ao atualizar o pedido $it")
             }.launchIn(viewModelScope)
@@ -168,9 +150,9 @@ class RequestClientViewModel(
                         sumTotalPedidosPorData += it
                     }
 
-                    _filterRequestForDate.value = sumTotalPedidosPorData
+                    _filterRequestForDate.postValue(sumTotalPedidosPorData)
                 }.catch {
-
+                    Log.e("TAG", "Error ao criar o relatório $it")
                 }.launchIn(viewModelScope)
         }
     }
@@ -178,7 +160,7 @@ class RequestClientViewModel(
     override fun loadAllRequest() {
         requestClientService.loadAllRequest()
             .onEach {
-                _loadAllRequest.value = it?.map { it.date!! }?.distinct()
+                _loadAllRequest.postValue(it?.map { it.date!! }?.distinct())
             }.catch {
                 Log.e("ERROR", "Erro ao buscar os pedidos $it")
             }.launchIn(viewModelScope)

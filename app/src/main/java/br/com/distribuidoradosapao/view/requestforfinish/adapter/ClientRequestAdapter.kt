@@ -12,9 +12,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException
 
 class ClientRequestAdapter(
     options: FirestoreRecyclerOptions<Client>,
-    private val dataClient: (String, Client) -> Unit,
-    private val onDataChangedListener: DataChangedListener = {},
-    private val onErrorListener: ErrorListener = {}
+    private val dataClient: (String, Client) -> Unit
 ) : FirestoreRecyclerAdapter<Client, RecyclerView.ViewHolder>(options) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -31,8 +29,4 @@ class ClientRequestAdapter(
             dataClient.invoke(model.idClient.orEmpty(), model)
         }
     }
-
-    override fun onDataChanged() = onDataChangedListener.invoke(itemCount)
-
-    override fun onError(e: FirebaseFirestoreException) = onErrorListener.invoke(e)
 }

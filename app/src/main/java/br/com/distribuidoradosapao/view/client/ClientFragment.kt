@@ -51,10 +51,7 @@ class ClientFragment : Fragment(), View.OnClickListener {
             adapterClient = ClientAdapter(
                 options!!,
                 ::navigateRequestClientFragment,
-                ::editDataClient,
-                { count ->
-                    showHideNoData(count > 0)
-                }
+                ::editDataClient
             )
 
             binding.rcClients.apply {
@@ -62,13 +59,6 @@ class ClientFragment : Fragment(), View.OnClickListener {
                 setHasFixedSize(true)
                 layoutManager = GridLayoutManager(context, 2)
             }
-        }
-    }
-
-    private fun showHideNoData(isHaveData: Boolean) {
-        binding.apply {
-            rcClients.isVisible = isHaveData
-            llVazio.isVisible = !isHaveData
         }
     }
 

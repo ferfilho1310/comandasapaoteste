@@ -105,9 +105,10 @@
             android:layout_height="90dp"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
-            app:lottie_repeatMode="restart"
+            android:layout_gravity="center"
             app:lottie_url="https://assets2.lottiefiles.com/packages/lf20_dYwT3b.json"
-            android:visibility="gone"
+            app:lottie_repeatMode="restart"
+            android:visibility="visible"
             android:layout_marginTop="32dp" />
 
     </LinearLayout>

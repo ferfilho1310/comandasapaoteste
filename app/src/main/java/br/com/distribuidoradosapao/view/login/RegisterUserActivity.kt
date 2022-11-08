@@ -9,6 +9,7 @@ import androidx.core.view.isVisible
 import br.com.distribuidoradosapao.R
 import br.com.distribuidoradosapao.databinding.RegisterUserActivityBinding
 import br.com.distribuidoradosapao.model.User
+import br.com.distribuidoradosapao.view.main.MainActivity
 import br.com.distribuidoradosapao.viewmodels.user.UserViewModel
 import com.google.firebase.FirebaseApp
 import org.koin.android.ext.android.inject
@@ -92,7 +93,12 @@ class RegisterUserActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun startSignUpActivity() {
-        startActivity(Intent(this, SignUpUserActivity::class.java))
+        startActivity(
+            Intent(
+                this,
+                MainActivity::class.java
+            ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        )
         finish()
     }
 

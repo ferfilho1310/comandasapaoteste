@@ -18,7 +18,7 @@ import java.time.format.DateTimeFormatter
 
 class InsertRequestClientBottomSheet(
     var idClient: String,
-    var listener: (String) -> Unit,
+    var listener: (Float) -> Unit,
 ) : BottomSheetDialogFragment(), View.OnClickListener {
 
     private var _binding: InsertRequestClientBottomSheetBinding? = null
@@ -50,7 +50,7 @@ class InsertRequestClientBottomSheet(
 
     private fun setupViewModelSum() {
         viewModel.somaRequestClient.observe(this) {
-            listener.invoke(it.toString())
+            listener.invoke(it)
         }
     }
 
@@ -108,7 +108,7 @@ class InsertRequestClientBottomSheet(
     companion object {
         fun newInstance(
             idClient: String,
-            listener: (String) -> Unit,
+            listener: (Float) -> Unit,
         ): InsertRequestClientBottomSheet {
             return InsertRequestClientBottomSheet(idClient, listener)
         }

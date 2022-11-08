@@ -44,10 +44,7 @@ class ClientRequestFinishFragment : Fragment() {
 
             adapterClient = ClientRequestAdapter(
                 options!!,
-                ::navigateRequestClientFragment,
-                { count ->
-                    showHideNoData(count > 0)
-                }
+                ::navigateRequestClientFragment
             )
 
             binding.rcClients.apply {
@@ -57,13 +54,6 @@ class ClientRequestFinishFragment : Fragment() {
             }
 
             adapterClient?.startListening()
-        }
-    }
-
-    private fun showHideNoData(isHaveData: Boolean) {
-        binding.apply {
-            rcClients.isVisible = isHaveData
-            llVazio.isVisible = !isHaveData
         }
     }
 

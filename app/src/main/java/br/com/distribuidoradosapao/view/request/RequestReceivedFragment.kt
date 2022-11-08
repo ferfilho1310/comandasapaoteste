@@ -1,6 +1,8 @@
 package br.com.distribuidoradosapao.view.request
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -26,6 +28,9 @@ class RequestReceivedFragment(
 
     private val viewModel: RequestClientViewModel by inject()
 
+    private var sumTotal = 0.00f
+    private var sumParcial = 0.00f
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,10 +38,14 @@ class RequestReceivedFragment(
         _binding = FragmentPedidosRecebidosBinding.inflate(inflater, container, false)
 
         viewModel.loadSomaParcial(idClient)
+        viewModel.somaReceberParcial(idClient)
+        viewModel.somaRequestsClient(idClient)
 
         setupListeners()
         setupViewModel()
         setupViewModelSumParcial()
+        sumTotalRequest()
+        sumJaRecebido()
 
         return binding.root
     }
@@ -44,6 +53,7 @@ class RequestReceivedFragment(
     private fun setupListeners() {
         binding.let {
             it.fabReceberParccial.setOnClickListener(this)
+            it.fabSumRequestReceber.setOnClickListener(this)
         }
     }
 
@@ -73,26 +83,42 @@ class RequestReceivedFragment(
                 val bottomSheet =
                     InsertValueReceivedParcialBottomSheet.newInstance(
                         idClient,
-                        ::listenerSumRececidoParcial,
-                        object : InsertValueReceivedParcialBottomSheet.Recebido {
-                            override fun onRecebido() {
-
-                            }
-                        }
+                        ::listenerSumRececidoParcial
                     )
                 bottomSheet.show(childFragmentManager, "TAG")
+            }
+            R.id.fab_sum_request_receber -> {
+                sumJaRecebido()
             }
         }
     }
 
-    private fun listenerSumRececidoParcial(sumRecebidoParcial: String) {
-        binding.tvRequestClientRecebido.text = "R$ ".plus("%.2f".format(sumRecebidoParcial.toFloat()))
+    private fun listenerSumRececidoParcial(sumRecebidoParcial: Float) {
+        sumParcial = sumRecebidoParcial
+        binding.tvRequestClientRecebido.text = "R$ ".plus("%.2f".format(sumRecebidoParcial))
     }
 
     private fun setupViewModelSumParcial() {
         viewModel.somaPedidosParcial.observe(viewLifecycleOwner) {
+            sumParcial = it
             binding.tvRequestClientRecebido.text = "R$ ".plus("%.2f".format(it))
         }
+    }
+
+    private fun sumTotalRequest() {
+        viewModel.somaRequestClient.observe(viewLifecycleOwner) {
+            sumTotal = it
+        }
+    }
+
+    private fun sumJaRecebido() {
+        Handler(Looper.getMainLooper()).postDelayed(
+            {
+                binding.tvRequestClientReceber.text =
+                    "R$ ".plus("%.2f".format(sumTotal - sumParcial))
+            },
+            1000
+        )
     }
 
     override fun onDestroyView() {

@@ -1,6 +1,8 @@
 package br.com.distribuidoradosapao.view.request
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +15,6 @@ import br.com.distribuidoradosapao.model.Client
 import br.com.distribuidoradosapao.model.Request
 import br.com.distribuidoradosapao.view.request.adapter.RequestAdapter
 import br.com.distribuidoradosapao.view.request.adapter.RequestAdapter.ListenerEditRequest
-import br.com.distribuidoradosapao.viewmodels.client.ClientViewModel
 import br.com.distribuidoradosapao.viewmodels.request.RequestClientViewModel
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import org.koin.android.ext.android.inject
@@ -31,6 +32,9 @@ class RequestsClientFragment(
 
     private val viewModel: RequestClientViewModel by inject()
 
+    private var sumParcial = 0.00f
+    private var sumTotal = 0.00f
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,11 +43,13 @@ class RequestsClientFragment(
 
         viewModel.loadRequests(idClient)
         viewModel.somaRequestsClient(idClient)
+        viewModel.somaReceberParcial(idClient)
 
         setupViewModel()
         setupViewModelSum()
-
+        setupViewModelSumPartial()
         setupListeners()
+        sumJaRecebido()
 
         return binding.root
     }
@@ -51,6 +57,7 @@ class RequestsClientFragment(
     private fun setupListeners() {
         binding.let {
             it.fabInsertRequestClient.setOnClickListener(this)
+            it.fabSumRequestPartial.setOnClickListener(this)
         }
     }
 
@@ -63,14 +70,12 @@ class RequestsClientFragment(
             adapterRequest =
                 RequestAdapter(options!!,
                     object : ListenerEditRequest {
-                    override fun onEditRequest(idRequest: String, model: Request) {
-                        editRequest(idRequest, model)
+                        override fun onEditRequest(idRequest: String, model: Request) {
+                            editRequest(idRequest, model)
 
+                        }
                     }
-                }
-                ) { count ->
-                    showHideNoData(count > 0)
-                }
+                )
 
             binding.recyclerView.apply {
                 adapter = adapterRequest
@@ -80,13 +85,6 @@ class RequestsClientFragment(
             }
 
             adapterRequest?.startListening()
-        }
-    }
-
-    private fun showHideNoData(isHaveData: Boolean) {
-        binding.apply {
-            recyclerView.isVisible = isHaveData
-            llVazio.isVisible = !isHaveData
         }
     }
 
@@ -103,17 +101,38 @@ class RequestsClientFragment(
                     InsertRequestClientBottomSheet.newInstance(idClient, ::listenerSumTotal)
                 bottomSheet.show(childFragmentManager, "TAG")
             }
+            R.id.fab_sum_request_partial -> {
+                sumJaRecebido()
+            }
         }
     }
 
-    private fun listenerSumTotal(sumRequest: String) {
+    private fun listenerSumTotal(sumRequest: Float) {
+        sumTotal = sumRequest
         binding.tvTotalRequestClient.text = "R$ ".plus("%.2f".format(sumRequest))
     }
 
     private fun setupViewModelSum() {
         viewModel.somaRequestClient.observe(viewLifecycleOwner) {
+            sumTotal = it
             binding.tvTotalRequestClient.text = "R$ ".plus("%.2f".format(it))
         }
+    }
+
+    private fun setupViewModelSumPartial() {
+        viewModel.somaPedidosParcial.observe(viewLifecycleOwner) {
+            sumParcial = it
+        }
+    }
+
+    private fun sumJaRecebido() {
+        Handler(Looper.getMainLooper()).postDelayed(
+            {
+                binding.tvTotalRequestReceivedClient.text =
+                    "R$ ".plus("%.2f".format(sumTotal - sumParcial))
+            },
+            1000
+        )
     }
 
     override fun onDestroyView() {

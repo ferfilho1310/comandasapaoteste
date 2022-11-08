@@ -15,7 +15,7 @@ import org.koin.android.ext.android.inject
 class EditRequestBottomSheet(
     var idRequest: String,
     var idClient: String,
-    var listener: (String) -> Unit,
+    var listener: (Float) -> Unit,
     var model: Request
 ) : BottomSheetDialogFragment(), View.OnClickListener {
 
@@ -56,7 +56,7 @@ class EditRequestBottomSheet(
 
     private fun setupViewModelSum() {
         viewModel.somaRequestClient.observe(this) {
-            listener.invoke(it.toString())
+            listener.invoke(it)
         }
     }
 
@@ -105,7 +105,7 @@ class EditRequestBottomSheet(
         fun newInstance(
             idClient: String,
             idRequest: String,
-            listener: (String) -> Unit,
+            listener: (Float) -> Unit,
             model: Request
         ): EditRequestBottomSheet {
             return EditRequestBottomSheet(idClient, idRequest, listener, model)

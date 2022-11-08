@@ -32,6 +32,7 @@ class RequestReceivedFinishFragment(
         _binding = FragmentPedidosRecebidosFinalizadosBinding.inflate(inflater, container, false)
 
         viewModel.loadSomaParcial(idClient)
+        viewModel.somaReceberParcial(idClient)
 
         setupViewModel()
         setupViewModelSumParcial()
@@ -68,11 +69,6 @@ class RequestReceivedFinishFragment(
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    override fun onStart() {
-        super.onStart()
-        viewModel.somaReceberParcial(idClient)
     }
 
     companion object {

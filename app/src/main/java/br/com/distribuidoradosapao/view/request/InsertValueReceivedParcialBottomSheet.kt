@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import br.com.distribuidoradosapao.R
 import br.com.distribuidoradosapao.databinding.InsertValueRecebidoParcialBottomSheetBinding
 import br.com.distribuidoradosapao.model.PedidoRecebidoParcial
@@ -14,10 +15,8 @@ import org.koin.android.ext.android.inject
 
 class InsertValueReceivedParcialBottomSheet(
     var idClient: String,
-    var listener: (String) -> Unit,
-    var recebido: Recebido
-) :
-    BottomSheetDialogFragment(),
+    var listener: (Float) -> Unit
+) : BottomSheetDialogFragment(),
     View.OnClickListener {
 
     private var _binding: InsertValueRecebidoParcialBottomSheetBinding? = null
@@ -25,12 +24,16 @@ class InsertValueReceivedParcialBottomSheet(
 
     private val viewModel: RequestClientViewModel by inject()
 
+    private var sumPartial = 0.00f
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = InsertValueRecebidoParcialBottomSheetBinding.inflate(inflater, container, false)
+
+        viewModel.somaReceberParcial(idClient)
 
         listener()
         setupViewModel()
@@ -52,7 +55,7 @@ class InsertValueReceivedParcialBottomSheet(
         }
 
         viewModel.somaPedidosParcial.observe(this) {
-            listener.invoke(it.toString())
+            listener.invoke(it)
         }
     }
 
@@ -74,7 +77,7 @@ class InsertValueReceivedParcialBottomSheet(
                 edValueRecebido.text.toString().isEmpty() -> edValueRecebido.error =
                     "Preencha o valor"
                 else -> {
-                    viewModel.receberPedidoParcial(
+                    viewModel.insertValueReceivedPartial(
                         PedidoRecebidoParcial(
                             idClient = idClient,
                             name = edName.text.toString(),
@@ -82,23 +85,17 @@ class InsertValueReceivedParcialBottomSheet(
                         )
                     )
                     viewModel.somaReceberParcial(idClient)
-                    recebido.onRecebido()
                 }
             }
         }
     }
 
-    interface Recebido {
-        fun onRecebido()
-    }
-
     companion object {
         fun newInstance(
             idClient: String,
-            listener: (String) -> Unit,
-            recebido: Recebido
+            listener: (Float) -> Unit
         ): InsertValueReceivedParcialBottomSheet {
-            return InsertValueReceivedParcialBottomSheet(idClient, listener, recebido)
+            return InsertValueReceivedParcialBottomSheet(idClient, listener)
         }
     }
 }
