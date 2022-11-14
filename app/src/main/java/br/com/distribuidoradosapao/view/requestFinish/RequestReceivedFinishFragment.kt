@@ -46,8 +46,7 @@ class RequestReceivedFinishFragment(
                 .setQuery(it, PedidoRecebidoParcial::class.java)
                 .build()
 
-            adapterRequest =
-                RequestParcialAdapter(options!!)
+            adapterRequest = RequestParcialAdapter(options!!)
 
             binding.recyclerView.apply {
                 adapter = adapterRequest

@@ -1,12 +1,10 @@
-package br.com.distribuidoradosapao.firebaseservice.client
+package br.com.distribuidoradosapao.firebaseService.client
 
 import android.util.Log
 import br.com.distribuidoradosapao.model.Client
 import com.google.firebase.FirebaseException
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.SnapshotMetadata
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow

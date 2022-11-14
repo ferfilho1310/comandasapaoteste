@@ -1,21 +1,25 @@
 package br.com.distribuidoradosapao.view.request
 
+import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.Toast
 import br.com.distribuidoradosapao.R
 import br.com.distribuidoradosapao.databinding.InsertValueRecebidoParcialBottomSheetBinding
 import br.com.distribuidoradosapao.model.PedidoRecebidoParcial
 import br.com.distribuidoradosapao.viewmodels.request.RequestClientViewModel
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.koin.android.ext.android.inject
 
 class InsertValueReceivedParcialBottomSheet(
     var idClient: String,
-    var listener: (Float) -> Unit
+    var listener: (Float?) -> Unit
 ) : BottomSheetDialogFragment(),
     View.OnClickListener {
 
@@ -23,8 +27,6 @@ class InsertValueReceivedParcialBottomSheet(
     private val binding get() = _binding!!
 
     private val viewModel: RequestClientViewModel by inject()
-
-    private var sumPartial = 0.00f
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,11 +63,13 @@ class InsertValueReceivedParcialBottomSheet(
 
     private fun listener() {
         binding.btReceberValor.setOnClickListener(this)
+        binding.imgCloseBtsValueRequest.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
             R.id.bt_receber_valor -> verifyDataRequest()
+            R.id.img_close_bts_value_request -> dismiss()
         }
     }
 
@@ -90,10 +94,24 @@ class InsertValueReceivedParcialBottomSheet(
         }
     }
 
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val bottomSheetDialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
+        bottomSheetDialog.setOnShowListener {
+            val bottomSheet = bottomSheetDialog
+                .findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
+
+            if (bottomSheet != null) {
+                val behavior: BottomSheetBehavior<*> = BottomSheetBehavior.from(bottomSheet)
+                behavior.isDraggable = false
+            }
+        }
+        return bottomSheetDialog
+    }
+
     companion object {
         fun newInstance(
             idClient: String,
-            listener: (Float) -> Unit
+            listener: (Float?) -> Unit
         ): InsertValueReceivedParcialBottomSheet {
             return InsertValueReceivedParcialBottomSheet(idClient, listener)
         }

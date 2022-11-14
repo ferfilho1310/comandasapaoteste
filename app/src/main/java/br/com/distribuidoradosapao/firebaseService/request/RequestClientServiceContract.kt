@@ -1,4 +1,4 @@
-package br.com.distribuidoradosapao.firebaseservice.request
+package br.com.distribuidoradosapao.firebaseService.request
 
 import br.com.distribuidoradosapao.model.PedidoRecebidoParcial
 import br.com.distribuidoradosapao.model.Request
@@ -17,4 +17,5 @@ interface RequestClientServiceContract {
     fun updateRequest(idRequest: String, request: Request): Flow<Boolean>
     fun filterRequestForDate(data: String): Flow<MutableList<Request>?>
     fun loadAllRequest(): Flow<MutableList<Request>?>
+    fun deleteRequestReceived(idRequestReceived: String): Flow<Boolean>
 }

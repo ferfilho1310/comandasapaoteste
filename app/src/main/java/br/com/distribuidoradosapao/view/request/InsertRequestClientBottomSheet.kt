@@ -1,16 +1,20 @@
 package br.com.distribuidoradosapao.view.request
 
+import android.app.Dialog
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.annotation.RequiresApi
 import br.com.distribuidoradosapao.R
 import br.com.distribuidoradosapao.databinding.InsertRequestClientBottomSheetBinding
 import br.com.distribuidoradosapao.model.Request
 import br.com.distribuidoradosapao.viewmodels.request.RequestClientViewModel
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.koin.android.ext.android.inject
 import java.time.LocalDateTime
@@ -46,6 +50,7 @@ class InsertRequestClientBottomSheet(
 
     private fun listener() {
         binding.btInsertRequestClient.setOnClickListener(this)
+        binding.imgCloseBtsRequestClient.setOnClickListener(this)
     }
 
     private fun setupViewModelSum() {
@@ -68,6 +73,7 @@ class InsertRequestClientBottomSheet(
     override fun onClick(p0: View?) {
         when (p0?.id) {
             R.id.bt_insert_request_client -> verifyDataRequest()
+            R.id.img_close_bts_request_client -> dismiss()
         }
     }
 
@@ -103,6 +109,20 @@ class InsertRequestClientBottomSheet(
 
         val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
         return current.format(formatter)
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val bottomSheetDialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
+        bottomSheetDialog.setOnShowListener {
+            val bottomSheet = bottomSheetDialog
+                .findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
+
+            if (bottomSheet != null) {
+                val behavior: BottomSheetBehavior<*> = BottomSheetBehavior.from(bottomSheet)
+                behavior.isDraggable = false
+            }
+        }
+        return bottomSheetDialog
     }
 
     companion object {

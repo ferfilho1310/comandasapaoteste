@@ -2,10 +2,8 @@ package br.com.distribuidoradosapao.viewmodels.client
 
 import android.util.Log
 import androidx.lifecycle.*
-import br.com.distribuidoradosapao.firebaseservice.client.ClientServiceContract
-import br.com.distribuidoradosapao.firebaseservice.request.RequestClientService
+import br.com.distribuidoradosapao.firebaseService.client.ClientServiceContract
 import br.com.distribuidoradosapao.model.Client
-import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn

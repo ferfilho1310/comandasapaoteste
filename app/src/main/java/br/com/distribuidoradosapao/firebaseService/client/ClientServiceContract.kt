@@ -1,4 +1,4 @@
-package br.com.distribuidoradosapao.firebaseservice.client
+package br.com.distribuidoradosapao.firebaseService.client
 
 import br.com.distribuidoradosapao.model.Client
 import com.google.firebase.firestore.Query

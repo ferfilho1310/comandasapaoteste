@@ -14,4 +14,5 @@ interface RequestClientViewModelContract {
     fun updateRequest(idRequest: String, request: Request)
     fun filterRequestForDate(data: String)
     fun loadAllRequest()
+    fun deleteRequestReceived(idRequestReceived: String)
 }

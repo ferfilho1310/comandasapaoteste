@@ -1,4 +1,4 @@
-package br.com.distribuidoradosapao.firebaseservice.request
+package br.com.distribuidoradosapao.firebaseService.request
 
 import android.util.Log
 import br.com.distribuidoradosapao.model.PedidoRecebidoParcial
@@ -188,7 +188,10 @@ class RequestClientService : RequestClientServiceContract {
     override fun filterRequestForDate(data: String): Flow<MutableList<Request>?> {
         return callbackFlow {
             try {
-                val listener = db.collection("Pedidos").whereEqualTo("date", data).orderBy("date")
+                val listener = db.collection("Pedidos")
+                    .whereEqualTo("date", data)
+                    .orderBy("date")
+
                 listener.addSnapshotListener { value, error ->
                     trySend(value?.toObjects(Request::class.java)).isSuccess
                 }
@@ -215,5 +218,21 @@ class RequestClientService : RequestClientServiceContract {
                 listener.isCanceled
             }
         }
+    }
+
+    override fun deleteRequestReceived(idRequestReceived: String): Flow<Boolean> {
+       return callbackFlow {
+           val listerner = db.collection("RecebidoParcial")
+               .document(idRequestReceived)
+               .delete()
+               .addOnSuccessListener {
+                   trySend(true).isSuccess
+               }.addOnFailureListener {
+                   trySend(false).isFailure
+               }
+           awaitClose {
+               listerner.isCanceled
+           }
+       }
     }
 }

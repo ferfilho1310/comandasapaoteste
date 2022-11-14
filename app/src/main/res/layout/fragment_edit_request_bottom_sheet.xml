@@ -5,6 +5,16 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <ImageButton
+        android:id="@+id/img_close_bts_edit_request"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/white"
+        android:src="@drawable/ic_close" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

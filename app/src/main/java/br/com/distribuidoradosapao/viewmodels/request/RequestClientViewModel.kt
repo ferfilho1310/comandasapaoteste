@@ -5,9 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.distribuidoradosapao.firebaseservice.request.RequestClientServiceContract
+import br.com.distribuidoradosapao.firebaseService.request.RequestClientServiceContract
 import br.com.distribuidoradosapao.model.PedidoRecebidoParcial
 import br.com.distribuidoradosapao.model.Request
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
@@ -48,6 +49,9 @@ class RequestClientViewModel(
     private var _loadAllRequest: MutableLiveData<List<String>?> = MutableLiveData()
     var loadAllRequest: LiveData<List<String>?> = _loadAllRequest
 
+    private var _deleteRequest: MutableLiveData<Boolean> = MutableLiveData()
+    var deleteRequest: LiveData<Boolean> = _deleteRequest
+
     private var sum: ArrayList<Float> = arrayListOf()
     private var sumRecebidoParcial: ArrayList<Float> = arrayListOf()
     private var sumPedidoPorData: ArrayList<Float> = arrayListOf()
@@ -62,6 +66,7 @@ class RequestClientViewModel(
                _insertRequestClient.postValue(it)
             }.catch {
                 Log.e("TAG", "Erro ao inserir pedido $it")
+                FirebaseCrashlytics.getInstance().log("Erro ao inserir pedido $it")
             }.launchIn(viewModelScope)
     }
 
@@ -71,6 +76,7 @@ class RequestClientViewModel(
                 _loadRequestClient.postValue(requests)
             }.catch {
                 Log.e("TAG", "Erro ao carregar pedidos $it")
+                FirebaseCrashlytics.getInstance().log("Erro ao carregar pedidos $it")
             }.launchIn(viewModelScope)
     }
 
@@ -87,6 +93,7 @@ class RequestClientViewModel(
                 _somaRequestClient.postValue(sumTotal)
             }.catch {
                 Log.e("TAG", "Erro ao efetuar a soma dos pedidos $it")
+                FirebaseCrashlytics.getInstance().log("Erro ao efetuar a soma dos pedidos $it")
             }.launchIn(viewModelScope)
     }
 
@@ -96,13 +103,16 @@ class RequestClientViewModel(
                 _insertRequestPartial.postValue(it)
             }.catch {
                 Log.e("TAG", "Erro ao receber pedido parcial $it")
+                FirebaseCrashlytics.getInstance().log("Erro ao receber pedido parcial $it")
             }.launchIn(viewModelScope)
     }
 
     override fun somaReceberParcial(idClient: String) {
-        sumRecebidoParcial.clear()
         requestClientService.somaReceberParcial(idClient)
             .onEach {
+                sumRecebidoParcial.clear()
+                sumTotalParcial = 0.00F
+
                 it?.forEach { valueProduct ->
                     sumRecebidoParcial.add(valueProduct.value!!.toFloat())
                 }
@@ -112,6 +122,7 @@ class RequestClientViewModel(
                 _somaPedidosParcial.postValue(sumTotalParcial)
             }.catch {
                 Log.e("TAG", "Error ao fazer a soma parcial $it")
+                FirebaseCrashlytics.getInstance().log("Error ao fazer a soma parcial $it")
             }.launchIn(viewModelScope)
     }
 
@@ -121,6 +132,7 @@ class RequestClientViewModel(
                 _loadSomaParcial.postValue(it)
             }.catch {
                 Log.e("TAG", "Error ao carregar o recebido parcial $it")
+                FirebaseCrashlytics.getInstance().log("Error ao carregar o recebido parcial $it")
             }.launchIn(viewModelScope)
     }
 
@@ -130,6 +142,7 @@ class RequestClientViewModel(
                 _updateRequest.postValue(it)
             }.catch {
                 Log.e("TAG", "Error ao atualizar o pedido $it")
+                FirebaseCrashlytics.getInstance().log("Error ao atualizar o pedido $it")
             }.launchIn(viewModelScope)
     }
 
@@ -153,6 +166,7 @@ class RequestClientViewModel(
                     _filterRequestForDate.postValue(sumTotalPedidosPorData)
                 }.catch {
                     Log.e("TAG", "Error ao criar o relatório $it")
+                    FirebaseCrashlytics.getInstance().log("Error ao criar o relatório $it")
                 }.launchIn(viewModelScope)
         }
     }
@@ -163,6 +177,17 @@ class RequestClientViewModel(
                 _loadAllRequest.postValue(it?.map { it.date!! }?.distinct())
             }.catch {
                 Log.e("ERROR", "Erro ao buscar os pedidos $it")
+                FirebaseCrashlytics.getInstance().log("Erro ao buscar os pedidos $it")
+            }.launchIn(viewModelScope)
+    }
+
+    override fun deleteRequestReceived(idRequestReceived: String) {
+        requestClientService.deleteRequestReceived(idRequestReceived)
+            .onEach {
+                _deleteRequest.value = it
+            }.catch {
+                Log.e("ERROR", "Erro ao deletar pedido parcial $it")
+                FirebaseCrashlytics.getInstance().log("Erro ao deletar pedido parcial $it")
             }.launchIn(viewModelScope)
     }
 }

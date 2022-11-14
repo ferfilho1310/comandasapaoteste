@@ -6,7 +6,6 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import br.com.distribuidoradosapao.R
@@ -49,7 +48,7 @@ class RequestsClientFragment(
         setupViewModelSum()
         setupViewModelSumPartial()
         setupListeners()
-        sumJaRecebido()
+        sumAlreadyRequest()
 
         return binding.root
     }
@@ -102,7 +101,7 @@ class RequestsClientFragment(
                 bottomSheet.show(childFragmentManager, "TAG")
             }
             R.id.fab_sum_request_partial -> {
-                sumJaRecebido()
+                sumAlreadyRequest()
             }
         }
     }
@@ -125,9 +124,8 @@ class RequestsClientFragment(
         }
     }
 
-    private fun sumJaRecebido() {
-        Handler(Looper.getMainLooper()).postDelayed(
-            {
+    private fun sumAlreadyRequest() {
+        Handler(Looper.getMainLooper()).postDelayed({
                 binding.tvTotalRequestReceivedClient.text =
                     "R$ ".plus("%.2f".format(sumTotal - sumParcial))
             },

@@ -1,12 +1,13 @@
 package br.com.distribuidoradosapao.view.request
 
+import android.content.DialogInterface
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import br.com.distribuidoradosapao.R
 import br.com.distribuidoradosapao.databinding.FragmentPedidosRecebidosBinding
@@ -39,13 +40,11 @@ class RequestReceivedFragment(
 
         viewModel.loadSomaParcial(idClient)
         viewModel.somaReceberParcial(idClient)
-        viewModel.somaRequestsClient(idClient)
 
         setupListeners()
         setupViewModel()
         setupViewModelSumParcial()
-        sumTotalRequest()
-        sumJaRecebido()
+        deleteRequestReceived()
 
         return binding.root
     }
@@ -53,7 +52,6 @@ class RequestReceivedFragment(
     private fun setupListeners() {
         binding.let {
             it.fabReceberParccial.setOnClickListener(this)
-            it.fabSumRequestReceber.setOnClickListener(this)
         }
     }
 
@@ -64,7 +62,25 @@ class RequestReceivedFragment(
                 .build()
 
             adapterRequest =
-                RequestParcialAdapter(options!!)
+                RequestParcialAdapter(
+                    options!!,
+                    object : RequestParcialAdapter.ListenerDeleteRequestReceived {
+                        override fun onDeleteRequestReceived(idRequestReceived: String) {
+                            AlertDialog.Builder(requireActivity())
+                                .setTitle("Atenção")
+                                .setMessage("Deseja realmente deletar o recebimento?")
+                                .setPositiveButton(
+                                    "Sim"
+                                ) { p0, _ ->
+                                    viewModel.deleteRequestReceived(idRequestReceived)
+                                    viewModel.somaReceberParcial(idClient)
+                                    p0.dismiss()
+                                }
+                                .setNegativeButton(
+                                    "Não"
+                                ) { p0, _ -> p0?.dismiss() }.show()
+                        }
+                    })
 
             binding.recyclerView.apply {
                 adapter = adapterRequest
@@ -77,48 +93,42 @@ class RequestReceivedFragment(
         }
     }
 
-    override fun onClick(p0: View?) {
-        when (p0?.id) {
-            R.id.fab_receber_parccial -> {
-                val bottomSheet =
-                    InsertValueReceivedParcialBottomSheet.newInstance(
-                        idClient,
-                        ::listenerSumRececidoParcial
-                    )
-                bottomSheet.show(childFragmentManager, "TAG")
-            }
-            R.id.fab_sum_request_receber -> {
-                sumJaRecebido()
+    private fun deleteRequestReceived() {
+        viewModel.deleteRequest.observe(viewLifecycleOwner) {
+            if (it) {
+                Toast.makeText(
+                    requireActivity(),
+                    "Recebimento deletado com sucesso",
+                    Toast.LENGTH_LONG
+                ).show()
+            } else {
+                Toast.makeText(
+                    requireActivity(), "Erro ao deletar recebimento", Toast.LENGTH_LONG
+                ).show()
             }
         }
     }
 
-    private fun listenerSumRececidoParcial(sumRecebidoParcial: Float) {
-        sumParcial = sumRecebidoParcial
+    override fun onClick(p0: View?) {
+        when (p0?.id) {
+            R.id.fab_receber_parccial -> {
+                val bottomSheet = InsertValueReceivedParcialBottomSheet.newInstance(
+                    idClient,
+                    ::listenerSumRececidoParcial
+                )
+                bottomSheet.show(childFragmentManager, "TAG")
+            }
+        }
+    }
+
+    private fun listenerSumRececidoParcial(sumRecebidoParcial: Float?) {
         binding.tvRequestClientRecebido.text = "R$ ".plus("%.2f".format(sumRecebidoParcial))
     }
 
     private fun setupViewModelSumParcial() {
         viewModel.somaPedidosParcial.observe(viewLifecycleOwner) {
-            sumParcial = it
             binding.tvRequestClientRecebido.text = "R$ ".plus("%.2f".format(it))
         }
-    }
-
-    private fun sumTotalRequest() {
-        viewModel.somaRequestClient.observe(viewLifecycleOwner) {
-            sumTotal = it
-        }
-    }
-
-    private fun sumJaRecebido() {
-        Handler(Looper.getMainLooper()).postDelayed(
-            {
-                binding.tvRequestClientReceber.text =
-                    "R$ ".plus("%.2f".format(sumTotal - sumParcial))
-            },
-            1000
-        )
     }
 
     override fun onDestroyView() {
