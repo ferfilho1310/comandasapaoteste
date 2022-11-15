@@ -14,7 +14,8 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import org.koin.android.ext.android.inject
 
 class RequestReceivedFinishFragment(
-    var idClient: String
+    var idClient: String,
+    var isClientRequestFinish: Boolean
 ) : Fragment() {
 
     private var _binding: FragmentPedidosRecebidosFinalizadosBinding? = null
@@ -46,7 +47,8 @@ class RequestReceivedFinishFragment(
                 .setQuery(it, PedidoRecebidoParcial::class.java)
                 .build()
 
-            adapterRequest = RequestParcialAdapter(options!!)
+            adapterRequest =
+                RequestParcialAdapter(options!!, isClientRequestFinish = isClientRequestFinish)
 
             binding.recyclerView.apply {
                 adapter = adapterRequest
@@ -71,6 +73,7 @@ class RequestReceivedFinishFragment(
     }
 
     companion object {
-        fun newInstance(idClient: String) = RequestReceivedFinishFragment(idClient)
+        fun newInstance(idClient: String, isClientRequestFinish: Boolean) =
+            RequestReceivedFinishFragment(idClient, isClientRequestFinish)
     }
 }

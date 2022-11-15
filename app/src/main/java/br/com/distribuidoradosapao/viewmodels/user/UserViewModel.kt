@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.distribuidoradosapao.firebaseService.user.UserServiceContract
 import br.com.distribuidoradosapao.model.User
+import br.com.distribuidoradosapao.util.FirebaseCrashlyticsUtils
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -28,8 +29,9 @@ class UserViewModel(
             .onEach {
                 _register.value = it
             }.catch {
-                Log.e("ERROR", "Error ao efetuar o cadastro $it")
+                Log.e("ERROR", "Error ao efetuar o cadastro ${it.cause}")
                 _register.value = false
+                FirebaseCrashlyticsUtils.log("Error ao efetuar o cadastro ${it.cause}")
             }.launchIn(viewModelScope)
     }
 
@@ -38,8 +40,9 @@ class UserViewModel(
             .onEach {
                 _signUp.value = it
             }.catch {
-                Log.e("ERROR", "Error ao efetuar login $it")
+                Log.e("ERROR", "Error ao efetuar login ${it.cause}")
                 _signUp.value = false
+                FirebaseCrashlyticsUtils.log("Error ao efetuar login ${it.cause}")
             }.launchIn(viewModelScope)
     }
 
@@ -48,8 +51,9 @@ class UserViewModel(
             .onEach {
                 _searchUser.value = it
             }.catch {
-                Log.e("ERROR", "Error ao buscar o usuário $it")
+                Log.e("ERROR", "Error ao buscar o usuário ${it.cause}")
                 _searchUser.value = null
+                FirebaseCrashlyticsUtils.log("Error ao buscar o usuário ${it.cause}")
             }.launchIn(viewModelScope)
     }
 }

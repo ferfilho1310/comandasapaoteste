@@ -53,6 +53,11 @@ class InsertValueReceivedParcialBottomSheet(
                 dismiss()
             } else {
                 Log.i("Error", "Não foi possível inserir o valor parcial")
+                Toast.makeText(
+                    requireActivity(),
+                    "Não foi possível inserir o valor parcial",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
 

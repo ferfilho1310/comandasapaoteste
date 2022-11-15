@@ -1,9 +1,13 @@
 package br.com.distribuidoradosapao.viewmodels.client
 
 import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import br.com.distribuidoradosapao.firebaseService.client.ClientServiceContract
 import br.com.distribuidoradosapao.model.Client
+import br.com.distribuidoradosapao.util.FirebaseCrashlyticsUtils
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
@@ -40,8 +44,9 @@ class ClientViewModel(
             .onEach {
                 _insertClient.value = it
             }.catch {
-                Log.e("TAG", "Erro ao inserir pedido $it")
+                Log.e("TAG", "Erro ao cadastrar cliente ${it.cause}")
                 _insertClient.value = false
+                FirebaseCrashlyticsUtils.log("Erro ao cadastrar cliente ${it.cause}")
             }.launchIn(viewModelScope)
     }
 
@@ -50,7 +55,8 @@ class ClientViewModel(
             .onEach {
                 _loadClient.value = it
             }.catch {
-                Log.e("Erro", "Não foi possível encontrar nenhum cliente: $it")
+                Log.e("Erro", "Não foi possível encontrar nenhum cliente: ${it.cause}")
+                FirebaseCrashlyticsUtils.log("Não foi possível encontrar nenhum cliente: ${it.cause}")
             }.launchIn(viewModelScope)
     }
 
@@ -59,7 +65,8 @@ class ClientViewModel(
             .onEach {
                 _deletClient.value = it
             }.catch {
-                Log.e("Erro", "Não foi possível deletar o cliente: $it")
+                Log.e("Erro", "Não foi possível deletar o cliente: ${it.cause}")
+                FirebaseCrashlyticsUtils.log("Não foi possível deletar o cliente: ${it.cause}")
             }.launchIn(viewModelScope)
     }
 
@@ -69,7 +76,8 @@ class ClientViewModel(
                 insertClientBeforeDelete(it, idClient, isComandaFinalizada)
             }.catch {
                 _deletClient.value = false
-                Log.e("Erro", "Não foi possível encontrar o cliente: $it")
+                Log.e("Erro", "Não foi possível encontrar o cliente: ${it.cause}")
+                FirebaseCrashlyticsUtils.log("Não foi possível encontrar o cliente para deletar: ${it.cause}")
             }.launchIn(viewModelScope)
     }
 
@@ -88,7 +96,8 @@ class ClientViewModel(
                     }
                 }.catch {
                     _deletClient.value = false
-                    Log.e("Erro", "Não foi possível inserir o cliente: $it")
+                    Log.e("Erro", "Não foi possível inserir o cliente: ${it.cause}")
+                    FirebaseCrashlyticsUtils.log("Não foi possível inserir o cliente antes de deletar ${it.cause}")
                 }.launchIn(viewModelScope)
         }
     }
@@ -98,7 +107,8 @@ class ClientViewModel(
             .onEach {
                 _loadOneClient.value = it
             }.catch {
-                Log.e("Erro", "Não foi possível carregar os dados do cliente: $it")
+                Log.e("Erro", "Não foi possível carregar os dados do cliente: ${it.cause}")
+                FirebaseCrashlyticsUtils.log("Não foi possível buscar o cliente ${it.cause}")
             }.launchIn(viewModelScope)
     }
 
@@ -107,7 +117,8 @@ class ClientViewModel(
             .onEach {
                 _updateClient.value = it
             }.catch {
-                Log.e("Erro", "Não foi possível atualizar os dados do cliente: $it")
+                Log.e("Erro", "Não foi possível atualizar os dados do cliente: ${it.cause}")
+                FirebaseCrashlyticsUtils.log("Não foi possível atualizar os dados do cliente ${it.cause}")
             }.launchIn(viewModelScope)
     }
 
@@ -116,7 +127,8 @@ class ClientViewModel(
             .onEach {
                 _loadClientDeleted.value = it
             }.catch {
-                Log.e("ERROR", "Não foi possível carregar os clientes deletados: $it")
+                Log.e("Error", "Não foi possível carregar os clientes deletados: ${it.cause}")
+                FirebaseCrashlyticsUtils.log("Não foi possível carregar clientes deletados ${it.cause}")
             }.launchIn(viewModelScope)
     }
 

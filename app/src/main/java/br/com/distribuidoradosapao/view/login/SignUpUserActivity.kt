@@ -68,14 +68,18 @@ class SignUpUserActivity : AppCompatActivity(), View.OnClickListener {
                 setVisibilityProgressBarButtonTextView(
                     isVisibleBt = true,
                     isVisibleTv = true,
-                    isVisiblePg = false
+                    isVisiblePg = false,
+                    isEnabledEdEmail = true,
+                    isEnabledEdSenha = true
                 )
                 startMainActivity()
             } else {
                 setVisibilityProgressBarButtonTextView(
                     isVisibleBt = true,
                     isVisibleTv = true,
-                    isVisiblePg = false
+                    isVisiblePg = false,
+                    isEnabledEdEmail = false,
+                    isEnabledEdSenha = false
                 )
                 Toast.makeText(
                     this,
@@ -89,12 +93,16 @@ class SignUpUserActivity : AppCompatActivity(), View.OnClickListener {
     private fun setVisibilityProgressBarButtonTextView(
         isVisibleBt: Boolean,
         isVisibleTv: Boolean,
-        isVisiblePg: Boolean
+        isVisiblePg: Boolean,
+        isEnabledEdEmail: Boolean,
+        isEnabledEdSenha: Boolean
     ) {
         binding.apply {
             btEntrar.isVisible = isVisibleBt
             tvRegister.isVisible = isVisibleTv
             pgLogin.isVisible = isVisiblePg
+            edEmail.isEnabled = isEnabledEdEmail
+            edSenha.isEnabled = isEnabledEdSenha
         }
     }
 
@@ -107,7 +115,9 @@ class SignUpUserActivity : AppCompatActivity(), View.OnClickListener {
                     setVisibilityProgressBarButtonTextView(
                         isVisibleBt = false,
                         isVisibleTv = false,
-                        isVisiblePg = true
+                        isVisiblePg = true,
+                        isEnabledEdEmail = false,
+                        isEnabledEdSenha = false
                     )
                     viewModel.signUp(
                         User(

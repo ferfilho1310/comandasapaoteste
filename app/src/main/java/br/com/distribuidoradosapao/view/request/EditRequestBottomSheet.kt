@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.Toast
 import br.com.distribuidoradosapao.R
 import br.com.distribuidoradosapao.databinding.FragmentEditRequestBottomSheetBinding
 import br.com.distribuidoradosapao.model.Request
@@ -71,6 +72,11 @@ class EditRequestBottomSheet(
                 dismiss()
             } else {
                 Log.e("TAG", "Erro ao atualizar o pedido")
+                Toast.makeText(
+                    requireActivity(),
+                    "Erro ao atualizar o pedido",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
     }

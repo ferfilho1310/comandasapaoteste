@@ -3,6 +3,7 @@ package br.com.distribuidoradosapao.view.requestforfinish.adapterRecebidosParcia
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageButton
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import br.com.distribuidoradosapao.R
 import br.com.distribuidoradosapao.model.PedidoRecebidoParcial
@@ -11,7 +12,8 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions
 
 class RequestParcialAdapter(
     options: FirestoreRecyclerOptions<PedidoRecebidoParcial>,
-    private val listenerDeleteRequestReceived: ListenerDeleteRequestReceived? = null
+    private val listenerDeleteRequestReceived: ListenerDeleteRequestReceived? = null,
+    private var isClientRequestFinish: Boolean = false
 ) : FirestoreRecyclerAdapter<PedidoRecebidoParcial, RecyclerView.ViewHolder>(options) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -28,8 +30,15 @@ class RequestParcialAdapter(
     ) {
         val clientViewHolder = holder as RequestParcialViewHolder
         clientViewHolder.bind(model)
-        clientViewHolder.view.findViewById<ImageButton>(R.id.img_delete_request_received).setOnClickListener {
-            listenerDeleteRequestReceived?.onDeleteRequestReceived(snapshots.getSnapshot(position).id)
+        clientViewHolder.view.findViewById<ImageButton>(R.id.img_delete_request_received).apply {
+            setOnClickListener {
+                listenerDeleteRequestReceived?.onDeleteRequestReceived(
+                    snapshots.getSnapshot(
+                        position
+                    ).id
+                )
+            }
+            isVisible = !isClientRequestFinish
         }
     }
 

@@ -9,8 +9,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 
 class RequestFinishAdapter(
-    options: FirestoreRecyclerOptions<Request>,
-
+    options: FirestoreRecyclerOptions<Request>
 ) : FirestoreRecyclerAdapter<Request, RecyclerView.ViewHolder>(options) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

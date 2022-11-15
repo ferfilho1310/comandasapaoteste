@@ -69,7 +69,7 @@ class RequestClientFinishActivity : AppCompatActivity() {
             ), "Anotados"
         )
         adapter.addFragment(
-            RequestReceivedFinishFragment.newInstance(idClient),
+            RequestReceivedFinishFragment.newInstance(idClient, isClientRequestFinish),
             "Recebebido"
         )
         binding.viewPager.adapter = adapter

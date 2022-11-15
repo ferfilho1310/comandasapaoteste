@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import br.com.distribuidoradosapao.R
 import br.com.distribuidoradosapao.databinding.InsertRequestClientBottomSheetBinding
@@ -65,6 +66,11 @@ class InsertRequestClientBottomSheet(
                 dismiss()
             } else {
                 Log.e("TAG", "Erro ao inserir o pedido")
+                Toast.makeText(
+                    requireActivity(),
+                    "Erro ao inserir o pedido",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
     }

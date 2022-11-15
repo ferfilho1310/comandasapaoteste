@@ -1,5 +1,6 @@
 package br.com.distribuidoradosapao.view.login
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -19,14 +20,39 @@ class RegisterUserActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: RegisterUserActivityBinding
     private val viewModel: UserViewModel by inject()
 
+    @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         FirebaseApp.initializeApp(this)
         binding = RegisterUserActivityBinding.inflate(layoutInflater)
+        setSupportActionBar(binding.toolbar)
         setContentView(binding.root)
+
+        supportActionBar?.apply {
+            setDefaultDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+        }
+
+        supportActionBar?.title = "Faça seu cadastro"
 
         setObservers()
         setListeners()
+        setListenerToolbar()
+    }
+
+    private fun setListenerToolbar() {
+        binding.toolbar.let {
+            it.navigationIcon = resources.getDrawable(R.drawable.ic_back)
+            it.setNavigationOnClickListener {
+                startActivity(
+                    Intent(
+                        this,
+                        SignUpUserActivity::class.java
+                    ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                )
+                finish()
+            }
+        }
     }
 
     override fun onClick(p0: View?) {
