@@ -17,7 +17,9 @@ import br.com.distribuidoradosapao.view.client.ClientFragment
 import br.com.distribuidoradosapao.view.client.ClientRequestFinishFragment
 import br.com.distribuidoradosapao.view.login.SignUpUserActivity
 import br.com.distribuidoradosapao.view.salesReport.SalesReportFragment
+import br.com.distribuidoradosapao.viewmodels.remoteConfig.RemoteConfigViewModel
 import com.google.firebase.auth.FirebaseAuth
+import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity(),
     NavigationView.OnNavigationItemSelectedListener,

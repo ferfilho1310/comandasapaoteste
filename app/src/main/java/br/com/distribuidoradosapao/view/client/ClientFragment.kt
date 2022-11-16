@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import br.com.distribuidoradosapao.R
 import br.com.distribuidoradosapao.databinding.FragmentClientBinding
 import br.com.distribuidoradosapao.model.Client
+import br.com.distribuidoradosapao.util.CustomGridLayoutManager
 import br.com.distribuidoradosapao.view.client.adapter.ClientAdapter
 import br.com.distribuidoradosapao.view.request.RequestClientActivity
 import br.com.distribuidoradosapao.viewmodels.client.ClientViewModel
@@ -57,7 +58,7 @@ class ClientFragment : Fragment(), View.OnClickListener {
             binding.rcClients.apply {
                 adapter = adapterClient
                 setHasFixedSize(true)
-                layoutManager = GridLayoutManager(context, 2)
+                layoutManager = CustomGridLayoutManager(context,2)
             }
         }
     }

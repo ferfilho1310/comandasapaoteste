@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import br.com.distribuidoradosapao.R
 import br.com.distribuidoradosapao.databinding.FragmentPedidosRecebidosBinding
 import br.com.distribuidoradosapao.model.PedidoRecebidoParcial
+import br.com.distribuidoradosapao.util.CustomGridLayoutManager
 import br.com.distribuidoradosapao.view.requestforfinish.adapterRecebidosParcial.RequestParcialAdapter
 import br.com.distribuidoradosapao.viewmodels.request.RequestClientViewModel
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
@@ -86,7 +87,7 @@ class RequestReceivedFragment(
                 adapter = adapterRequest
                 setHasFixedSize(true)
                 layoutManager =
-                    GridLayoutManager(context, 2)
+                    CustomGridLayoutManager(context,2)
             }
 
             adapterRequest?.startListening()

@@ -55,7 +55,8 @@
             android:background="@color/black_light"
             app:tabIndicatorHeight="3dp"
             app:tabMode="fixed"
-            app:tabTextColor="@color/white" />
+            app:tabTextColor="@color/white"
+            app:tabIndicatorColor="@color/white"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 

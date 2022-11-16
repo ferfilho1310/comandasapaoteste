@@ -1,6 +1,8 @@
 package br.com.distribuidoradosapao.di
 
 import android.app.Application
+import br.com.distribuidoradosapao.viewmodels.remoteConfig.RemoteConfigViewModel
+import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidFileProperties
 import org.koin.android.ext.koin.androidLogger

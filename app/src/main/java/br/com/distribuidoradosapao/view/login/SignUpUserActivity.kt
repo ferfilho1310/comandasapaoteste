@@ -10,6 +10,7 @@ import br.com.distribuidoradosapao.R
 import br.com.distribuidoradosapao.databinding.SignUpActivityBinding
 import br.com.distribuidoradosapao.model.User
 import br.com.distribuidoradosapao.view.main.MainActivity
+import br.com.distribuidoradosapao.viewmodels.remoteConfig.RemoteConfigViewModel
 import br.com.distribuidoradosapao.viewmodels.user.UserViewModel
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
@@ -19,17 +20,20 @@ import org.koin.android.ext.android.inject
 class SignUpUserActivity : AppCompatActivity(), View.OnClickListener {
 
     private val viewModel: UserViewModel by inject()
+    private val remoteConfig: RemoteConfigViewModel by inject()
     private lateinit var binding: SignUpActivityBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         FirebaseApp.initializeApp(this)
+        remoteConfig.remoteConfigFetch(this)
+        super.onCreate(savedInstanceState)
         binding = SignUpActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
 
         setObservers()
         setListeners()
+        setViewModel()
     }
 
     override fun onClick(p0: View?) {
@@ -48,11 +52,19 @@ class SignUpUserActivity : AppCompatActivity(), View.OnClickListener {
         if (FirebaseAuth.getInstance().uid != null) {
             startMainActivity()
         }
+
+
     }
 
     private fun startMainActivity() {
         startActivity(Intent(this, MainActivity::class.java))
         finish()
+    }
+
+    private fun setViewModel() {
+        remoteConfig.remoteConfigLiveData.observe(this) {
+            binding.tvRegister.isVisible = it
+        }
     }
 
     private fun setListeners() {

@@ -12,6 +12,7 @@ import br.com.distribuidoradosapao.R
 import br.com.distribuidoradosapao.databinding.FragmentRequestsClientBinding
 import br.com.distribuidoradosapao.model.Client
 import br.com.distribuidoradosapao.model.Request
+import br.com.distribuidoradosapao.util.CustomGridLayoutManager
 import br.com.distribuidoradosapao.view.request.adapter.RequestAdapter
 import br.com.distribuidoradosapao.view.request.adapter.RequestAdapter.ListenerEditRequest
 import br.com.distribuidoradosapao.viewmodels.request.RequestClientViewModel
@@ -80,7 +81,7 @@ class RequestsClientFragment(
                 adapter = adapterRequest
                 setHasFixedSize(true)
                 layoutManager =
-                    GridLayoutManager(context, 2)
+                    CustomGridLayoutManager(context,2)
             }
 
             adapterRequest?.startListening()

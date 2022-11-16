@@ -12,6 +12,7 @@ import br.com.distribuidoradosapao.databinding.FragmentRequestsClientBinding
 import br.com.distribuidoradosapao.databinding.FragmentRequestsFinishClientBinding
 import br.com.distribuidoradosapao.model.Client
 import br.com.distribuidoradosapao.model.Request
+import br.com.distribuidoradosapao.util.CustomGridLayoutManager
 import br.com.distribuidoradosapao.view.request.InsertRequestClientBottomSheet
 import br.com.distribuidoradosapao.view.request.adapter.RequestFinishAdapter
 import br.com.distribuidoradosapao.viewmodels.client.ClientViewModel
@@ -62,7 +63,7 @@ class RequestsClientFinishFragment(
                 adapter = adapterRequest
                 setHasFixedSize(true)
                 layoutManager =
-                    GridLayoutManager(context, 2)
+                    CustomGridLayoutManager(context,2)
             }
 
             adapterRequest?.startListening()
