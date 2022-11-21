@@ -10,8 +10,8 @@ import br.com.distribuidoradosapao.R
 import br.com.distribuidoradosapao.databinding.ActivityRequestClientBinding
 import br.com.distribuidoradosapao.model.Client
 import br.com.distribuidoradosapao.view.main.MainActivity
-import br.com.distribuidoradosapao.view.requestFinish.RequestReceivedFinishFragment
-import br.com.distribuidoradosapao.view.requestFinish.RequestsClientFinishFragment
+import br.com.distribuidoradosapao.view.requestfinish.RequestReceivedFinishFragment
+import br.com.distribuidoradosapao.view.requestfinish.RequestsClientFinishFragment
 import br.com.distribuidoradosapao.view.requestforfinish.ViewPagerAdapter
 import br.com.distribuidoradosapao.viewmodels.client.ClientViewModel
 import org.koin.android.ext.android.inject

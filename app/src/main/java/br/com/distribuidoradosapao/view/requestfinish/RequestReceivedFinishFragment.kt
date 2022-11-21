@@ -1,13 +1,12 @@
-package br.com.distribuidoradosapao.view.requestFinish
+package br.com.distribuidoradosapao.view.requestfinish
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.GridLayoutManager
 import br.com.distribuidoradosapao.databinding.FragmentPedidosRecebidosFinalizadosBinding
-import br.com.distribuidoradosapao.model.PedidoRecebidoParcial
+import br.com.distribuidoradosapao.model.RequestReceivedPartial
 import br.com.distribuidoradosapao.util.CustomGridLayoutManager
 import br.com.distribuidoradosapao.view.requestforfinish.adapterRecebidosParcial.RequestParcialAdapter
 import br.com.distribuidoradosapao.viewmodels.request.RequestClientViewModel
@@ -23,7 +22,7 @@ class RequestReceivedFinishFragment(
     private val binding get() = _binding!!
 
     private var adapterRequest: RequestParcialAdapter? = null
-    private var options: FirestoreRecyclerOptions<PedidoRecebidoParcial>? = null
+    private var options: FirestoreRecyclerOptions<RequestReceivedPartial>? = null
 
     private val viewModel: RequestClientViewModel by inject()
 
@@ -44,8 +43,8 @@ class RequestReceivedFinishFragment(
 
     private fun setupViewModel() {
         viewModel.loadSomaParcial.observe(viewLifecycleOwner) {
-            options = FirestoreRecyclerOptions.Builder<PedidoRecebidoParcial>()
-                .setQuery(it, PedidoRecebidoParcial::class.java)
+            options = FirestoreRecyclerOptions.Builder<RequestReceivedPartial>()
+                .setQuery(it, RequestReceivedPartial::class.java)
                 .build()
 
             adapterRequest =

@@ -1,4 +1,4 @@
-package br.com.distribuidoradosapao.firebaseService.client
+package br.com.distribuidoradosapao.firebaseservice.client
 
 import android.util.Log
 import br.com.distribuidoradosapao.model.Client

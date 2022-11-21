@@ -1,4 +1,4 @@
-package br.com.distribuidoradosapao.firebaseService.user
+package br.com.distribuidoradosapao.firebaseservice.user
 
 import br.com.distribuidoradosapao.model.User
 import kotlinx.coroutines.flow.Flow

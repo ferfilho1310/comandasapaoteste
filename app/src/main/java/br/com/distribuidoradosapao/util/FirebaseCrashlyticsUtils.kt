@@ -7,5 +7,4 @@ object FirebaseCrashlyticsUtils {
     fun log(messageError: String){
         FirebaseCrashlytics.getInstance().recordException(Throwable(messageError))
     }
-
 }

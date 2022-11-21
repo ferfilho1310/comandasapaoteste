@@ -4,12 +4,12 @@ import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import br.com.distribuidoradosapao.R
-import br.com.distribuidoradosapao.model.PedidoRecebidoParcial
+import br.com.distribuidoradosapao.model.RequestReceivedPartial
 
 class RequestParcialViewHolder(var view: View): RecyclerView.ViewHolder(view) {
 
-    fun bind(pedidoRecebidoParcial: PedidoRecebidoParcial) {
-        view.findViewById<TextView>(R.id.tv_name).text = pedidoRecebidoParcial.name
-        view.findViewById<TextView>(R.id.tv_value).text = "R$ ".plus("%.2f".format(pedidoRecebidoParcial.value))
+    fun bind(requestReceivedPartial: RequestReceivedPartial) {
+        view.findViewById<TextView>(R.id.tv_name).text = requestReceivedPartial.name
+        view.findViewById<TextView>(R.id.tv_value).text = "R$ ".plus("%.2f".format(requestReceivedPartial.value))
     }
 }

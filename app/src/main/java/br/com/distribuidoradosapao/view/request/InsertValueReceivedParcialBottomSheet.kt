@@ -10,7 +10,7 @@ import android.widget.FrameLayout
 import android.widget.Toast
 import br.com.distribuidoradosapao.R
 import br.com.distribuidoradosapao.databinding.InsertValueRecebidoParcialBottomSheetBinding
-import br.com.distribuidoradosapao.model.PedidoRecebidoParcial
+import br.com.distribuidoradosapao.model.RequestReceivedPartial
 import br.com.distribuidoradosapao.viewmodels.request.RequestClientViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -87,7 +87,7 @@ class InsertValueReceivedParcialBottomSheet(
                     "Preencha o valor"
                 else -> {
                     viewModel.insertValueReceivedPartial(
-                        PedidoRecebidoParcial(
+                        RequestReceivedPartial(
                             idClient = idClient,
                             name = edName.text.toString(),
                             value = edValueRecebido.text.toString().toFloat()

@@ -1,7 +1,7 @@
-package br.com.distribuidoradosapao.firebaseService.request
+package br.com.distribuidoradosapao.firebaseservice.request
 
 import android.util.Log
-import br.com.distribuidoradosapao.model.PedidoRecebidoParcial
+import br.com.distribuidoradosapao.model.RequestReceivedPartial
 import br.com.distribuidoradosapao.model.Request
 import com.google.firebase.FirebaseException
 import com.google.firebase.firestore.FirebaseFirestore
@@ -78,7 +78,7 @@ class RequestClientService : RequestClientServiceContract {
         }
     }
 
-    override fun receberPedidoParcial(recebidoParcial: PedidoRecebidoParcial): Flow<Boolean> {
+    override fun receberPedidoParcial(recebidoParcial: RequestReceivedPartial): Flow<Boolean> {
         return callbackFlow {
             val mapRequest: MutableMap<String, Any> = HashMap()
             mapRequest["idClient"] = recebidoParcial.idClient.toString()
@@ -98,12 +98,12 @@ class RequestClientService : RequestClientServiceContract {
         }
     }
 
-    override fun somaReceberParcial(idClient: String): Flow<MutableList<PedidoRecebidoParcial>?> {
+    override fun somaReceberParcial(idClient: String): Flow<MutableList<RequestReceivedPartial>?> {
         return callbackFlow {
             try {
                 db.collection("RecebidoParcial").whereEqualTo("idClient", idClient)
                     .addSnapshotListener { value, error ->
-                        val requestList = value?.toObjects(PedidoRecebidoParcial::class.java)
+                        val requestList = value?.toObjects(RequestReceivedPartial::class.java)
                         trySend(requestList).isSuccess
                     }
             } catch (ex: Exception) {
@@ -132,7 +132,7 @@ class RequestClientService : RequestClientServiceContract {
 
                 db.collection("RecebidoParcial").whereEqualTo("idClient", idClient)
                     .addSnapshotListener { value, error ->
-                        val requestList = value?.toObjects(PedidoRecebidoParcial::class.java)
+                        val requestList = value?.toObjects(RequestReceivedPartial::class.java)
                         requestList?.forEach { valueProduct ->
                             sumRecebidoParcial.add(valueProduct.value!!.toFloat())
                         }

@@ -5,8 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.distribuidoradosapao.firebaseService.request.RequestClientServiceContract
-import br.com.distribuidoradosapao.model.PedidoRecebidoParcial
+import br.com.distribuidoradosapao.firebaseservice.request.RequestClientServiceContract
+import br.com.distribuidoradosapao.model.RequestReceivedPartial
 import br.com.distribuidoradosapao.model.Request
 import br.com.distribuidoradosapao.util.FirebaseCrashlyticsUtils
 import com.google.firebase.firestore.Query
@@ -97,7 +97,7 @@ class RequestClientViewModel(
             }.launchIn(viewModelScope)
     }
 
-    override fun insertValueReceivedPartial(recebidoParcial: PedidoRecebidoParcial) {
+    override fun insertValueReceivedPartial(recebidoParcial: RequestReceivedPartial) {
         requestClientService.receberPedidoParcial(recebidoParcial)
             .onEach {
                 _insertRequestPartial.postValue(it)

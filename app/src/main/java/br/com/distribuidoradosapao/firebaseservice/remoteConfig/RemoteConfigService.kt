@@ -1,4 +1,4 @@
-package br.com.distribuidoradosapao.firebaseService.remoteConfig
+package br.com.distribuidoradosapao.firebaseservice.remoteConfig
 
 import android.app.Activity
 import android.content.Context

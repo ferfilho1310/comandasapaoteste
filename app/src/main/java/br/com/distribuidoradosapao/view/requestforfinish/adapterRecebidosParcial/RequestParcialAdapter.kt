@@ -6,15 +6,15 @@ import android.widget.ImageButton
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import br.com.distribuidoradosapao.R
-import br.com.distribuidoradosapao.model.PedidoRecebidoParcial
+import br.com.distribuidoradosapao.model.RequestReceivedPartial
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 
 class RequestParcialAdapter(
-    options: FirestoreRecyclerOptions<PedidoRecebidoParcial>,
+    options: FirestoreRecyclerOptions<RequestReceivedPartial>,
     private val listenerDeleteRequestReceived: ListenerDeleteRequestReceived? = null,
     private var isClientRequestFinish: Boolean = false
-) : FirestoreRecyclerAdapter<PedidoRecebidoParcial, RecyclerView.ViewHolder>(options) {
+) : FirestoreRecyclerAdapter<RequestReceivedPartial, RecyclerView.ViewHolder>(options) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return RequestParcialViewHolder(
@@ -26,7 +26,7 @@ class RequestParcialAdapter(
     override fun onBindViewHolder(
         holder: RecyclerView.ViewHolder,
         position: Int,
-        model: PedidoRecebidoParcial
+        model: RequestReceivedPartial
     ) {
         val clientViewHolder = holder as RequestParcialViewHolder
         clientViewHolder.bind(model)

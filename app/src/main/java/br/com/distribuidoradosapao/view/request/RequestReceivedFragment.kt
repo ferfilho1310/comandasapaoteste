@@ -1,6 +1,5 @@
 package br.com.distribuidoradosapao.view.request
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,10 +7,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
 import br.com.distribuidoradosapao.R
 import br.com.distribuidoradosapao.databinding.FragmentPedidosRecebidosBinding
-import br.com.distribuidoradosapao.model.PedidoRecebidoParcial
+import br.com.distribuidoradosapao.model.RequestReceivedPartial
 import br.com.distribuidoradosapao.util.CustomGridLayoutManager
 import br.com.distribuidoradosapao.view.requestforfinish.adapterRecebidosParcial.RequestParcialAdapter
 import br.com.distribuidoradosapao.viewmodels.request.RequestClientViewModel
@@ -26,7 +24,7 @@ class RequestReceivedFragment(
     private val binding get() = _binding!!
 
     private var adapterRequest: RequestParcialAdapter? = null
-    private var options: FirestoreRecyclerOptions<PedidoRecebidoParcial>? = null
+    private var options: FirestoreRecyclerOptions<RequestReceivedPartial>? = null
 
     private val viewModel: RequestClientViewModel by inject()
 
@@ -58,8 +56,8 @@ class RequestReceivedFragment(
 
     private fun setupViewModel() {
         viewModel.loadSomaParcial.observe(viewLifecycleOwner) {
-            options = FirestoreRecyclerOptions.Builder<PedidoRecebidoParcial>()
-                .setQuery(it, PedidoRecebidoParcial::class.java)
+            options = FirestoreRecyclerOptions.Builder<RequestReceivedPartial>()
+                .setQuery(it, RequestReceivedPartial::class.java)
                 .build()
 
             adapterRequest =

@@ -1,25 +1,17 @@
-package br.com.distribuidoradosapao.view.requestFinish
+package br.com.distribuidoradosapao.view.requestfinish
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
-import androidx.recyclerview.widget.GridLayoutManager
-import br.com.distribuidoradosapao.R
-import br.com.distribuidoradosapao.databinding.FragmentRequestsClientBinding
 import br.com.distribuidoradosapao.databinding.FragmentRequestsFinishClientBinding
 import br.com.distribuidoradosapao.model.Client
 import br.com.distribuidoradosapao.model.Request
 import br.com.distribuidoradosapao.util.CustomGridLayoutManager
-import br.com.distribuidoradosapao.view.request.InsertRequestClientBottomSheet
 import br.com.distribuidoradosapao.view.request.adapter.RequestFinishAdapter
-import br.com.distribuidoradosapao.viewmodels.client.ClientViewModel
 import br.com.distribuidoradosapao.viewmodels.request.RequestClientViewModel
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.google.firebase.ktx.Firebase
 import org.koin.android.ext.android.inject
 
 class RequestsClientFinishFragment(
